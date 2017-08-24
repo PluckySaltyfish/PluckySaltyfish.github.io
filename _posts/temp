@@ -1,0 +1,33 @@
+UUID表示一个不变通用唯一标识符,代表一个128位的值
+fragement UI
+在activity代码中添加fragment。
+###布局
+* style
+* margin
+
+### xml
+* activity_crime.xml——托管fragment
+* fragment_crime.xml——布局文件
+
+### java
+* Crime.java——模型层，定义crime的ID和title
+* CrimeActivity.java——继承FragmentActivity
+* CrimeFragment.java——控制模型与视图层的交互
+
+###FragmentManager
+负责管理fragment，将它们的视图添加到activity中，在activity中
+声明。
+
+* 管理fragment队列
+* 管理fragment回退栈
+
+```java
+Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+if (fragment == null) {
+    fragment = new CrimeFragment();
+    fm.beginTransaction()
+        .add(R.id.fragment_container, fragment)
+        .commit();
+```
+
+
