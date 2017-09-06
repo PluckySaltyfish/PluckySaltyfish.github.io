@@ -14,7 +14,7 @@ fragement UI
 * CrimeActivity.java——继承FragmentActivity
 * CrimeFragment.java——控制模型与视图层的交互
 
-###FragmentManager
+### FragmentManager
 负责管理fragment，将它们的视图添加到activity中，在activity中
 声明。
 
