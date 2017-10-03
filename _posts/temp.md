@@ -11,6 +11,10 @@ fragement UI
 ### xml
 * activity_fragment.xml——统一的托管fragment，具有FrameLayout的布局
 * fragment_crime.xml——布局文件
+* fragment_crime_list.xml——(RecyclerView)
+* 
+
+
 ### java
 * Crime.java——模型层，定义crime的ID和title
 * CrimeActivity.java——继承FragmentActivity
@@ -42,3 +46,6 @@ adapter
             .add(R.id.fragment_container, fragment)
             .commit();
 ```
+
+
+
