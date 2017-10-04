@@ -38,7 +38,15 @@ adapter
 * 管理fragment队列
 * 管理fragment回退栈
 
-```java
+### 步骤
+* 创建一个recyclerView布局
+* 在Fragment的onCreate()中声明此recyclerView
+* 设置LayoutManager指定Activity
+* 定义相关ViewHolder，传入view
+* Adaptor生成ViewHolder，绑定View
+* 设定Adaptor
+
+``` java
     Fragment fragment = fm.findFragmentById(R.id.fragment_container);
     if (fragment == null) {
         fragment = new CrimeFragment();
@@ -46,6 +54,3 @@ adapter
             .add(R.id.fragment_container, fragment)
             .commit();
 ```
-
-
-
