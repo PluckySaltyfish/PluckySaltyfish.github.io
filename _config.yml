@@ -38,10 +38,11 @@ disqus: Plucky
 comments: true
 
 permalink: /:year/:month/:title
-
+plugins: [jekyll-paginate]
 # Enable for using pages, more details are here: http://jekyllrb.com/docs/pagination/
 #paginate: 3
-
+paginate: 8
+paginate_path: "page:num"
 #highlighter: rouge
 
 markdown: kramdown

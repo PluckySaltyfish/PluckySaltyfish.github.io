@@ -97,6 +97,7 @@ ul.social-media {
     display: inline-block;
     color: white;
     &:hover {
+
       color: $accent-color;
     }
   }
@@ -342,6 +343,39 @@ nav.shrink .navbar-toggle {
   margin: 0 auto;
   display: block;
 }
+
+.pagination {
+  padding: 20px;
+  margin-bottom: 20px;
+  color: #feffff;
+}
+a.page {
+  display: inline-block;
+  line-height: 31px;
+  padding: 0px 9px;
+  margin-right: 4px;
+  border-radius: 3px;
+  font-size: .875em;
+  font-weight: bold;
+  border: solid 1px #32373b;
+  background: #3e4347;
+  box-shadow: inset 0 1px 1px rgba(255,255,255, .1), 0 1px 3px rgba(0,0,0, .1);
+  color: #feffff;
+  text-shadow: 0 1px 0 rgba(0,0,0, .5);
+  text-decoration: none;
+}
+a.page:hover, a.page.gradient:hover {
+  background: #2d4f0d;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#547085), to(#3d4f5d));
+  background: -moz-linear-gradient(0% 0% 270deg,#547085, #3d4f5d);
+  text-decoration: none;
+}
+a.page.active {
+  border: none;
+  background: #2f3237;
+  box-shadow: inset 0px 0px 8px rgba(0,0,0, .5), 0px 1px 0px rgba(255,255,255, .1);
+}
+
 .filename{
   padding: 0px;
   margin: 0px;
