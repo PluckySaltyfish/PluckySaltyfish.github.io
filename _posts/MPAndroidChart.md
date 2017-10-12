@@ -20,6 +20,17 @@ dependencies {
 
 其它
 
-### 文档
+#### 文档
 https://github.com/PhilJay/MPAndroidChart/wiki
+
+#### 需求
+* 一周内任务类别数量（已完成，未完成，待完成）——饼图PieChart
+* 每日任务完成率
+    因为是近期任务完成率，显示7天，原定平滑LineChart显示效果并不好，还是BarChart。
+* 近6个月任务完成率——条形图
+    数据量大，平滑LineChart。
+* 每日添加任务数量——条形图 BarChart2D
+
+#### 实例1：SemiAnnualChart
+
 
