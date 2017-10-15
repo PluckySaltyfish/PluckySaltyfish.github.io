@@ -15,6 +15,36 @@
   <link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  <script type="text/javascript">
+  /* 鼠标点击特效 */
+  var a_idx = 0;
+  jQuery(document).ready(function($) {
+      $("body").click(function(e) {
+  var a = new Array("Plucky好帅", "fpga怎么办", "23333", "安卓好麻烦", "别点了", "你还点", "哇烦死了" ,"叫你不要点了", "你还点！", "那你点吧", "你是胖子", "啦啦啦");
+  var $i = $("<span/>").text(a[a_idx]);
+          a_idx = (a_idx + 1) % a.length;
+  var x = e.pageX,
+          y = e.pageY;
+          $i.css({
+  "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+  "top": y - 20,
+  "left": x,
+  "position": "absolute",
+  "font-weight": "bold",
+  "color": "#85CEF6"
+          });
+          $("body").append($i);
+          $i.animate({
+  "top": y - 180,
+  "opacity": 0
+          },
+          1500,
+  function() {
+              $i.remove();
+          });
+      });
+  });
+</script>
 </head>
 
 <body>
@@ -74,6 +104,16 @@
   <div class="post">
     <h2 class="post_title">Posts Tagged &ldquo;Python&rdquo;</h2>
     <ul>
+      
+        
+          
+        
+          
+        
+      
+        
+          
+        
       
         
           
@@ -162,15 +202,15 @@
   <h2>Recent Posts</h2>
   <ul>
     
+    <li><a href="/2017/10/%E6%9C%80%E5%A4%A7%E4%B8%8D%E8%83%BD%E8%A1%A8%E8%BE%BE%E7%9A%84%E6%95%B4%E6%95%B0">最大不能线性表达的整数(!)</a></li>
+    
+    <li><a href="/2017/10/MacOS10.12%E7%BB%88%E7%AB%AF%E8%B5%B0%E4%BB%A3%E7%90%86">MacOS 10.12+ 终端走代理</a></li>
+    
     <li><a href="/2017/10/%E6%9B%B4%E6%96%B0%E8%AF%8D%E7%BB%84%E9%BB%98%E5%86%99%E5%B7%A5%E5%85%B7">词组默写命令行工具v0.1.1</a></li>
     
     <li><a href="/2017/10/Fragment%E7%9A%84%E4%BD%BF%E7%94%A8">fragment的使用</a></li>
     
     <li><a href="/2017/10/Android%E6%81%BC%E4%BA%BA%E5%B0%8F%E9%BA%BB%E7%83%A6%E5%90%88%E9%9B%86-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0)">Android恼人小麻烦合集</a></li>
-    
-    <li><a href="/2017/10/%E6%B3%95%E5%B8%88%E5%BA%B7%E7%9A%84%E5%B7%A5%E4%BA%BA">法师康的工人</a></li>
-    
-    <li><a href="/2017/09/%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F%E4%BA%8C">跳跃游戏二（!）</a></li>
     
   </ul>
 </div>
@@ -201,7 +241,7 @@
         <span>Greedy</span></a></li>
     
     <li>
-      <a href="/tag/Mac" data-toggle="tooltip" data-placement="right" title="1">
+      <a href="/tag/Mac" data-toggle="tooltip" data-placement="right" title="2">
         <span>Mac</span></a></li>
     
     <li>
@@ -217,7 +257,11 @@
         <span>fragment</span></a></li>
     
     <li>
-      <a href="/tag/待解决" data-toggle="tooltip" data-placement="right" title="1">
+      <a href="/tag/number theory" data-toggle="tooltip" data-placement="right" title="1">
+        <span>number theory</span></a></li>
+    
+    <li>
+      <a href="/tag/待解决" data-toggle="tooltip" data-placement="right" title="2">
         <span>待解决</span></a></li>
     
   </ul>
