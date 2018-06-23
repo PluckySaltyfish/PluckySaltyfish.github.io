@@ -17,16 +17,16 @@
 //********************************************************
 
 // Several accent colors, choose one or create your own!
-$accent-color: #469DBC;    // original =)
+$accent-color: #7474BF;    // original =)
 //$accent-color: #C38FD6;  // velvet
 //$accent-color: #8FD6B3;  // greenish
 //$accent-color: #35B4DE;  // bluish
 //$accent-color: #D2E354;  // yellowish
 //$accent-color: #52B54B;  // green
 
-$font-color: #dddddd;
-$background-color: #292929;
-$post-panel-color: #444;
+$font-color: #ffffff;
+$background-color: #7474BF;
+$post-panel-color: #2a2c2f;
 $footer-background-color: #292c2f;
 $note-color: #87CEFA;
 $warning-color: #ffff00;
@@ -49,19 +49,26 @@ body {
 .main-page {
   width: 75%;
 }
+body :hover{
+  color:#b39ddb;
+}
 
-h1 { font-size: 2.20em; }
-h2 { font-size: 1.80em; }
-h3 { font-size: 1.66em; }
+h1 { font-size: 2.20em; font-family: Ubuntu;}
+h2 { font-size: 1.80em; font-family: Ubuntu;}
+h3 { font-size: 1.66em;font-family: Ubuntu;}
 h4 { font-size: 1.62em; }
-h5 { font-size: 1.33em; }
-h6 { font-size: 1.25em; }
-
+h5 { font-size: 1.33em;font-family: Ubuntu; }
+h6 { font-size: 1.25em; font-family: Ubuntu;}
+time{font-family: Ubuntu;}
+p{font-family: Ubuntu;}
 img {
   display: inline-block;
   margin: 0 auto;
   max-width: 100%;
   max-height: 100%;
+}
+body{
+  font-family: Ubuntu;
 }
 
 img + em {
@@ -165,6 +172,11 @@ ul.share-buttons {
 .sidebar li {
   margin-top: .7em;
   line-height: 1em;
+  color:#2a2c2f;
+}
+.sidebar a{
+  color:#2a2c2f;
+  font-family: Ubuntu;
 }
 ul.sideBarTags {
   list-style: none;
@@ -173,7 +185,9 @@ ul.sideBarTags {
     font-family: 'FontAwesome';
     float: left;
     margin-left: -1.5em;
+    color:#2a2c2f;
   }
+
 }
 
 //********************************************************
@@ -253,7 +267,7 @@ nav.navbar.shrink {
 }
 .navbar-brand {
   font-size: 30px;
-  color: $accent-color;
+  color: #d1c4e9;
 
 }
 nav.shrink a {
@@ -357,23 +371,22 @@ a.page {
   border-radius: 3px;
   font-size: .875em;
   font-weight: bold;
-  border: solid 1px #32373b;
-  background: #3e4347;
-  box-shadow: inset 0 1px 1px rgba(255,255,255, .1), 0 1px 3px rgba(0,0,0, .1);
+  
+  background: #7474BF;
+  
   color: #feffff;
-  text-shadow: 0 1px 0 rgba(0,0,0, .5);
   text-decoration: none;
 }
 a.page:hover, a.page.gradient:hover {
   background: #2d4f0d;
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#547085), to(#3d4f5d));
-  background: -moz-linear-gradient(0% 0% 270deg,#547085, #3d4f5d);
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#7474BF), to(#b39ddb));
+  background: -moz-linear-gradient(0% 0% 270deg,#7474BF, #348AC7);
   text-decoration: none;
 }
 a.page.active {
   border: none;
-  background: #2f3237;
-  box-shadow: inset 0px 0px 8px rgba(0,0,0, .5), 0px 1px 0px rgba(255,255,255, .1);
+  background:#b39ddb;
+  
 }
 
 .filename{

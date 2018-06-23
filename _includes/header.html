@@ -20,7 +20,7 @@
   var a_idx = 0;
   jQuery(document).ready(function($) {
       $("body").click(function(e) {
-  var a = new Array("Plucky好帅", "数据挖掘怎么做", "23333", "安卓好麻烦", "别点了", "你还点", "哇烦死了" ,"叫你不要点了", "你还点！", "那你点吧", "你是胖子", "啦啦啦");
+  var a = new Array("Plucky好帅", "机器学习好难啊", "23333", "RISC-V看上去好厉害", "别点了", "你还点", "哇烦死了" ,"叫你不要点了", "你还点！", "那你点吧", "你是胖子", "啦啦啦");
   var $i = $("<span/>").text(a[a_idx]);
           a_idx = (a_idx + 1) % a.length;
   var x = e.pageX,
@@ -31,7 +31,7 @@
   "left": x,
   "position": "absolute",
   "font-weight": "bold",
-  "color": "#85CEF6"
+  "color": "#b39ddb"
           });
           $("body").append($i);
           $i.animate({
