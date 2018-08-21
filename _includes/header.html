@@ -9,6 +9,7 @@
   <script src="{{ site.baseurl}}/js/bootstrap.min.js"></script>
   <script src="{{ site.baseurl}}/js/header.js"></script>
   <script src="{{ site.baseurl}}/js/toc.js"></script>
+  <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   <link href="{{ site.baseurl}}/css/bootstrap.min.css" rel="stylesheet">
   <link href="{{ site.baseurl}}/css/theme.css" rel="stylesheet">
   <link href="{{ site.baseurl}}/css/syntax.css" rel="stylesheet">
@@ -20,7 +21,7 @@
   var a_idx = 0;
   jQuery(document).ready(function($) {
       $("body").click(function(e) {
-  var a = new Array("Plucky好帅", "机器学习好难啊", "23333", "RISC-V看上去好厉害", "别点了", "你还点", "哇烦死了" ,"叫你不要点了", "你还点！", "那你点吧", "你是胖子", "啦啦啦");
+  var a = new Array("Plucky好帅", "机器学习好难啊", "23333", "自然语言处理很神奇", "别点了", "你还点", "哇烦死了" ,"叫你不要点了", "你还点！", "那你点吧", "你是胖子", "啦啦啦");
   var $i = $("<span/>").text(a[a_idx]);
           a_idx = (a_idx + 1) % a.length;
   var x = e.pageX,

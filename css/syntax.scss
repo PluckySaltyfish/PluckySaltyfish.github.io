@@ -11,14 +11,14 @@ $background: #2B2B2B;
 $selectionForeground: #A9B7C6;
 $selectionBackground: #214283;
 $operators: #A9B7C6;
-$strings: #A5C25C;
+$strings: white;
 $names: #88be05;
-$keywords: #CB772F;
+$keywords: #a787ea;
 $varAndProp: #A9B7C6;
-$numbers: #6897BB;
+$numbers: #ffc107;
 $tag: #f1c829;
 $attributes: #9876AA;
-$comments: #75715e;
+$comments: #ffeb3b;
 $linenos: #A9B7C6;
 .highlight {
   margin-bottom: 1.5em;
@@ -67,7 +67,7 @@ h5 > code,
 p > pre,
 p > code,
 .note > code {
-  color: tomato;
+  color: #f36881;
   background-color: #333;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -89,10 +89,10 @@ p > code,
 .n { color: $varAndProp } /* Name */
 .o { color: $operators } /* Operator */
 .p { color: $varAndProp } /* Punctuation */
-.cm { color: #75715e } /* Comment.Multiline */
-.cp { color: #75715e } /* Comment.Preproc */
-.c1 { color: #75715e } /* Comment.Single */
-.cs { color: #75715e } /* Comment.Special */
+.cm { color:  #ffeb3b } /* Comment.Multiline */
+.cp { color:  #ffeb3b  } /* Comment.Preproc */
+.c1 { color:  #ffeb3b } /* Comment.Single */
+.cs { color:  #ffeb3b  } /* Comment.Special */
 .ge { font-style: italic } /* Generic.Emph */
 .gs { font-weight: bold } /* Generic.Strong */
 .kc { color: $keywords } /* Keyword.Constant */
