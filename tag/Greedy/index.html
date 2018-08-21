@@ -9,6 +9,7 @@
   <script src="/js/bootstrap.min.js"></script>
   <script src="/js/header.js"></script>
   <script src="/js/toc.js"></script>
+  <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/theme.css" rel="stylesheet">
   <link href="/css/syntax.css" rel="stylesheet">
@@ -20,7 +21,7 @@
   var a_idx = 0;
   jQuery(document).ready(function($) {
       $("body").click(function(e) {
-  var a = new Array("Plucky好帅", "数据挖掘怎么做", "23333", "安卓好麻烦", "别点了", "你还点", "哇烦死了" ,"叫你不要点了", "你还点！", "那你点吧", "你是胖子", "啦啦啦");
+  var a = new Array("Plucky好帅", "机器学习好难啊", "23333", "自然语言处理很神奇", "别点了", "你还点", "哇烦死了" ,"叫你不要点了", "你还点！", "那你点吧", "你是胖子", "啦啦啦");
   var $i = $("<span/>").text(a[a_idx]);
           a_idx = (a_idx + 1) % a.length;
   var x = e.pageX,
@@ -31,7 +32,7 @@
   "left": x,
   "position": "absolute",
   "font-weight": "bold",
-  "color": "#85CEF6"
+  "color": "#b39ddb"
           });
           $("body").append($i);
           $i.animate({
@@ -104,6 +105,28 @@
   <div class="post">
     <h2 class="post_title">Posts Tagged &ldquo;Greedy&rdquo;</h2>
     <ul>
+      
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+          
+        
       
         
           
@@ -270,15 +293,15 @@
   <h2>Recent Posts</h2>
   <ul>
     
+    <li><a href="/2018/08/Numpy%E7%9A%84%E4%BD%BF%E7%94%A8">Numpy的使用</a></li>
+    
+    <li><a href="/2018/08/%E6%8F%8F%E8%BF%B0%E7%BB%9F%E8%AE%A1%E5%AD%A6">统计学在机器学习中的应用</a></li>
+    
+    <li><a href="/2018/07/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4(1)">常用Linux命令(1):find</a></li>
+    
+    <li><a href="/2018/07/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%92%E5%BA%8F">排序</a></li>
+    
     <li><a href="/2018/04/%E8%B4%A8%E6%95%B0%E5%92%8C%E5%9B%A0%E6%95%B0">质数和因数</a></li>
-    
-    <li><a href="/2018/04/Git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">Git学习笔记</a></li>
-    
-    <li><a href="/2018/04/%E5%B0%8F%E7%9B%AE%E6%A0%87">研究生前的小目标</a></li>
-    
-    <li><a href="/2018/02/%E5%9F%8E%E5%A0%A1%E4%B9%8B%E6%97%85">城堡之旅</a></li>
-    
-    <li><a href="/2018/02/Android%E6%81%BC%E4%BA%BA%E5%B0%8F%E9%BA%BB%E7%83%A6%E5%90%88%E9%9B%86-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0)">Android恼人小麻烦合集</a></li>
     
   </ul>
 </div>
@@ -321,6 +344,10 @@
         <span>Greedy</span></a></li>
     
     <li>
+      <a href="/tag/Linux" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Linux</span></a></li>
+    
+    <li>
       <a href="/tag/Mac" data-toggle="tooltip" data-placement="right" title="2">
         <span>Mac</span></a></li>
     
@@ -333,7 +360,7 @@
         <span>Other</span></a></li>
     
     <li>
-      <a href="/tag/Python" data-toggle="tooltip" data-placement="right" title="3">
+      <a href="/tag/Python" data-toggle="tooltip" data-placement="right" title="4">
         <span>Python</span></a></li>
     
     <li>
@@ -353,7 +380,19 @@
         <span>待解决</span></a></li>
     
     <li>
-      <a href="/tag/考研机试" data-toggle="tooltip" data-placement="right" title="1">
+      <a href="/tag/排序" data-toggle="tooltip" data-placement="right" title="1">
+        <span>排序</span></a></li>
+    
+    <li>
+      <a href="/tag/机器学习" data-toggle="tooltip" data-placement="right" title="1">
+        <span>机器学习</span></a></li>
+    
+    <li>
+      <a href="/tag/统计学" data-toggle="tooltip" data-placement="right" title="2">
+        <span>统计学</span></a></li>
+    
+    <li>
+      <a href="/tag/考研机试" data-toggle="tooltip" data-placement="right" title="2">
         <span>考研机试</span></a></li>
     
   </ul>
@@ -366,7 +405,7 @@
           <footer class="footer-distributed">
       <div class="container">
         <div class="footer">
-          <p>Plucky &copy; 2017</p>
+          <p>Plucky ❤ 2018</p>
           <h6>Follow me</h6>
 
 <ul class="social-media">
@@ -380,12 +419,12 @@
   
 
     <li>
-      <a title="扩展结点死得早 on sina" href="http://weibo.com/u/3961002756" target="_blank"><i class="fa fa-weibo fa-2x"></i></a>
+      <a title="石见黑黑 on sina" href="https://weibo.com/u/2325916830" target="_blank"><i class="fa fa-weibo fa-2x"></i></a>
     </li>
 
   
     <li>
-      <a title="PluckySaltyFish on Instagram" href="https://instagram.com/PluckySaltyFish" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+      <a title="PluckyTang on Instagram" href="https://www.instagram.com/pluckytang/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
     </li>
   
 
