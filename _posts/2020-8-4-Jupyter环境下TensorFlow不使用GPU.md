@@ -2,8 +2,7 @@
 layout: post
 title: "Jupyter环境下TensorFlow不使用GPU"
 date: 2020-08-04 12:13:06
-description:
-os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
+description: os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
 tags:
  - 错误记录
 ---

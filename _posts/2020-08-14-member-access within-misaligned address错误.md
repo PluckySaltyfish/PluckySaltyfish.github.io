@@ -2,7 +2,7 @@
 layout: post
 title: "member access within misaligned address 错误"
 date: 2020-08-14 15:22:07
-description:奇怪啊
+description: 一个leetcode的错误
 tags:
  - C++探究
  - 错误研究
