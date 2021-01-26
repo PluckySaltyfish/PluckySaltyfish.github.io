@@ -1,0 +1,35 @@
+I";<h3 id="grep">grep</h3>
+<p>grep命令用于查找文件里符合条件的字符串。</p>
+
+<h3 id="格式">格式</h3>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="o">[</span><span class="nt">-option</span><span class="o">][</span><span class="nt">-A</span>&lt;显示列数&gt;][-B&lt;显示列数&gt;][-C&lt;显示列数&gt;][-d&lt;进行动作&gt;][-e&lt;范本样式&gt;][-f&lt;范本文件&gt;][--help][范本样式][文件或目录...]
+</code></pre></div></div>
+
+<h3 id="常用方法">常用方法</h3>
+<p>在当前目录中，查找后缀有test 字样的文件中包含plucky 字符串的文件，并打印出该字符串的行</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep </span>plucky <span class="k">*</span><span class="nb">test</span> 
+</code></pre></div></div>
+
+<p><strong>试验</strong></p>
+
+<p><img src="http://0.0.0.0:4000/images/grep0.png" alt="img" class="center-image" /></p>
+
+<p><br /></p>
+
+<p>以递归的方式查找符合条件的文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="nt">-r</span> update /etc/acpi 
+</code></pre></div></div>
+
+<p>反向查找</p>
+
+<p>查找文件名中包含 test 的文件中不包含test 的行</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="nt">-v</span> <span class="nb">test</span> <span class="k">*</span><span class="nb">test</span><span class="k">*</span>
+</code></pre></div></div>
+
+<p>egrep：将查找模式（第一个词）解释为正则表达式</p>
+
+<p>fgrep：将查找模式解释为单纯的字符串</p>
+:ET

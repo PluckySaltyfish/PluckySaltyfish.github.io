@@ -1,0 +1,108 @@
+I",<blockquote>
+  <p>我的python学习主要是通过imooc上资源和《Head First Python》，这本书和一般教程不同，最先讲的就是文件的读写和数据处理，加上我暑假准备六级，希望有人能天天给我听写词组，并且想不断丰富词组的内容，就根据HFP的前几章写了这么一个小工具，今天又改了一改，发出来看看。</p>
+</blockquote>
+
+<h5 id="流程">流程</h5>
+<ul>
+  <li>编写词组文件</li>
+  <li>读入词组文件</li>
+  <li>录入词组</li>
+  <li>听写词组</li>
+  <li>给出结果</li>
+  <li>将文件添加至系统bin目录</li>
+</ul>
+
+<h5 id="词组文件1txt">词组文件——1.txt</h5>
+<p>这是我的词组文件，其中中英文分隔用‘-’，可以改成其它不常用符号@等。<br />
+<img src="http://0.0.0.0:4000/images/1.png" alt="img" class="center-image" /><em>词组文件</em></p>
+
+<h5 id="python文件dictatepy">python文件——dictate.py</h5>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# coding=utf-8
+</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">os</span><span class="p">.</span><span class="n">chdir</span><span class="p">(</span><span class="s">'/Users/plucky/Plucky/Notes'</span><span class="p">)</span>  <span class="c1"># 切换目录至词组文件所在文件夹
+</span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'1'</span><span class="p">)</span> <span class="k">as</span> <span class="n">data</span><span class="p">:</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s">"start"</span><span class="p">]</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="s">"start"</span><span class="p">]</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="s">"start"</span><span class="p">]</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="s">"start"</span><span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">make_base</span><span class="p">():</span>  <span class="c1"># 导入词组
+</span>            <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">each_line</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">each_line</span> <span class="o">=</span> <span class="n">each_line</span><span class="p">.</span><span class="n">rstrip</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">each_line</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">'-'</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="p">(</span><span class="n">English</span><span class="p">,</span> <span class="n">Chinese</span><span class="p">)</span> <span class="o">=</span> <span class="n">each_line</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">'-'</span><span class="p">)</span>
+                    <span class="n">a</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">English</span><span class="p">)</span>
+                    <span class="n">b</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">Chinese</span><span class="p">)</span>
+                    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+
+            <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[37m一共导入了</span><span class="se">\033</span><span class="s">[34m"</span><span class="p">,</span>
+            <span class="k">print</span> <span class="n">count</span><span class="p">,</span>
+            <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[37m条词组"</span>
+
+
+        <span class="k">def</span> <span class="nf">dictate</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>  <span class="c1"># 开始听写
+</span>            <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[32m--start--</span><span class="se">\033</span><span class="s">[37m"</span>
+            <span class="k">while</span> <span class="n">line</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">number</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[0m"</span>
+                <span class="k">print</span> <span class="n">b</span><span class="p">[</span><span class="n">number</span><span class="p">],</span> <span class="s">"</span><span class="se">\033</span><span class="s">[34m"</span>
+                <span class="n">answer</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">answer</span> <span class="o">==</span> <span class="n">a</span><span class="p">[</span><span class="n">number</span><span class="p">]:</span>
+                    <span class="n">c</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">number</span><span class="p">])</span>
+                    <span class="n">d</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">number</span><span class="p">])</span>
+                <span class="n">a</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">number</span><span class="p">])</span>
+                <span class="n">b</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">number</span><span class="p">])</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">print</span> <span class="s">"</span><span class="se">\n\033</span><span class="s">[32m--end--</span><span class="se">\033</span><span class="s">[37m"</span>
+
+
+        <span class="n">make_base</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">"输入要测试的词组数量：</span><span class="se">\033</span><span class="s">[34m"</span><span class="p">,</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">raw_input</span><span class="p">())</span>
+        <span class="n">dictate</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+        <span class="n">wrong</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">grade</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">1.00</span> <span class="o">*</span> <span class="n">wrong</span> <span class="o">/</span> <span class="n">lines</span><span class="p">)</span>
+
+        <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[37m最终成绩：</span><span class="se">\033</span><span class="s">[32m"</span><span class="p">,</span> <span class="n">grade</span>  <span class="c1"># 打印成绩与错误答案
+</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">wrong</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[31m错误："</span>
+
+        <span class="k">while</span> <span class="n">wrong</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[31m"</span>
+            <span class="k">print</span> <span class="n">d</span><span class="p">[</span><span class="n">wrong</span><span class="p">],</span> <span class="s">"</span><span class="se">\t\033</span><span class="s">[37m"</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="n">wrong</span><span class="p">]</span>
+            <span class="n">wrong</span> <span class="o">=</span> <span class="n">wrong</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[0m"</span>
+    <span class="k">except</span> <span class="nb">KeyboardInterrupt</span><span class="p">:</span>  <span class="c1"># 捕捉ctrl+c造成的强制中断
+</span>        <span class="k">print</span> <span class="s">"</span><span class="se">\n</span><span class="s">Bye~"</span>
+</code></pre></div></div>
+
+<blockquote class="note">
+  <h5 id="中文编码">中文编码</h5>
+  <p>第二行设置为utf-8</p>
+  <h5 id="转义序列">转义序列</h5>
+  <p>用转义字符做了高亮，有关转义字符，参考：<a href="http://www.jianshu.com/p/a924a6d6ed22">转义序列</a></p>
+</blockquote>
+
+<h5 id="生成可执行文件">生成可执行文件</h5>
+<p>下载pyinstaller,然后打包生成可执行文件：<br />
+<code class="language-plaintext highlighter-rouge">pyinstaller -F dictate.py</code>,生成的可执行文件放入系统的bin目录下。Mac在<code class="language-plaintext highlighter-rouge">/usr/local/bin</code>下。</p>
+
+<blockquote>
+  <p>其实这步现在看就有点多余了，这样做是为了把.py去掉直接用dictate呼出程序，现在我用了zsh，可以直接通过alias绑定dictate，很方便。</p>
+</blockquote>
+
+<h5 id="效果如图">效果如图</h5>
+<p><img src="http://0.0.0.0:4000/images/iterm.png" alt="img" class="center-image" /><em>iterm</em></p>
+
+<p>祝我6级600分;)</p>
+
+:ET

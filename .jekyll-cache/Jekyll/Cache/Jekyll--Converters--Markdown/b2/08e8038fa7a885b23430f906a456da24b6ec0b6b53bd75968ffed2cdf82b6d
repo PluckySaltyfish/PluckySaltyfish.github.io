@@ -1,0 +1,85 @@
+I"�<blockquote>
+  <p>在很多Markdown的编辑器中，比如说Typora，在插入图片时并不能够自动把图片的文件名显示成图片的title，这次写了一个Alfred的workflow可以在Markdown编辑器中插入带图片的标题</p>
+</blockquote>
+
+<h3 id="实现思路">实现思路</h3>
+
+<ul>
+  <li>触发：KeyWord + 参数（指定图片路径、编号、标题、缩放大小）。</li>
+  <li>python读取参数，放入html的模板中。</li>
+  <li>Copy to clipboard</li>
+</ul>
+
+<h3 id="环境">环境</h3>
+
+<ul>
+  <li>Python2.7</li>
+</ul>
+
+<h3 id="基本配置">基本配置</h3>
+
+<ul>
+  <li>流程</li>
+</ul>
+
+<p><img src="http://0.0.0.0:4000/images/img-1.png" alt="img" class="center-image" /><em>图1 流程</em></p>
+
+<ul>
+  <li>Script Filter</li>
+</ul>
+
+<p><img src="http://0.0.0.0:4000/images/img-2.png" alt="img" class="center-image" /><em>图2</em></p>
+
+<ul>
+  <li>Copy to Clipborad</li>
+</ul>
+
+<p><img src="http://0.0.0.0:4000/images/img-3.png" alt="img" class="center-image" /><em>图3</em></p>
+
+<h3 id="python代码">Python代码</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># encoding: utf-8
+</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">workflow</span> <span class="kn">import</span> <span class="n">Workflow</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">sys</span><span class="p">)</span>
+<span class="n">sys</span><span class="p">.</span><span class="n">setdefaultencoding</span><span class="p">(</span><span class="s">'utf8'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">generate_text</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="n">number</span><span class="p">,</span><span class="n">title</span><span class="p">,</span><span class="n">zoom</span><span class="p">):</span>
+	<span class="k">return</span> <span class="s">'&lt;center&gt;&lt;img style="border-radius: 0.3125em;box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);zoom:'</span><span class="o">+</span> <span class="n">zoom</span> <span class="o">+</span> <span class="s">'" src="'</span><span class="o">+</span><span class="n">location</span><span class="o">+</span><span class="s">'"&gt;&lt;br&gt;&lt;div style="border-bottom: 1px solid #d9d9d9;display: inline-block;color: #000;padding: 2px;"&gt;图'</span><span class="o">+</span><span class="n">number</span><span class="o">+</span><span class="s">' '</span><span class="o">+</span><span class="n">title</span><span class="o">+</span><span class="s">'&lt;/div&gt;&lt;/center&gt;'</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">wf</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">wf</span><span class="p">.</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+    	<span class="n">zoom</span> <span class="o">=</span> <span class="s">'67%'</span>
+    <span class="k">else</span><span class="p">:</span>
+    	<span class="n">zoom</span> <span class="o">=</span> <span class="n">wf</span><span class="p">.</span><span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s">'%'</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">wf</span><span class="p">.</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    	<span class="n">t</span> <span class="o">=</span> <span class="s">''</span>
+    <span class="k">else</span><span class="p">:</span>
+    	<span class="n">t</span> <span class="o">=</span> <span class="n">wf</span><span class="p">.</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">wf</span><span class="p">.</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+    	<span class="n">num</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+    	<span class="n">num</span> <span class="o">=</span> <span class="n">wf</span><span class="p">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">wf</span><span class="p">.</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+    	<span class="n">location</span> <span class="o">=</span> <span class="s">''</span>
+    <span class="k">else</span><span class="p">:</span>
+    	<span class="n">location</span> <span class="o">=</span> <span class="n">wf</span><span class="p">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hint_text</span> <span class="o">=</span><span class="s">'位置:'</span><span class="o">+</span> <span class="n">location</span> <span class="o">+</span> <span class="s">',编号:'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">+</span><span class="s">',标题:'</span> <span class="o">+</span> <span class="n">t</span> <span class="o">+</span> <span class="s">',缩放:'</span> <span class="o">+</span> <span class="n">zoom</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">generate_text</span><span class="p">(</span><span class="n">location</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">),</span><span class="n">t</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">zoom</span><span class="p">))</span>
+    <span class="n">wf</span><span class="p">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">hint_text</span><span class="p">,</span><span class="n">subtitle</span><span class="o">=</span><span class="s">"参数用空格分隔"</span><span class="p">,</span><span class="n">arg</span><span class="o">=</span><span class="n">text</span><span class="p">,</span><span class="n">valid</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">wf</span><span class="p">.</span><span class="n">send_feedback</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sa">u</span><span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">wf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="n">wf</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="知识点">知识点</h3>
+
+<p>学会了传参，通过wf.arg获取传递的参数。</p>
+
+<h3 id="最终效果图">最终效果图</h3>
+
+<p><img src="http://0.0.0.0:4000/images/aw-img.gif" alt="img" class="center-image" /><em>图4 最终结果</em></p>
+:ET

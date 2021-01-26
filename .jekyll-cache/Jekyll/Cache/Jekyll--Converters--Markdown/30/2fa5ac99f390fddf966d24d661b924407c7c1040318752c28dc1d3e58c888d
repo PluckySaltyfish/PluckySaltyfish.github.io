@@ -1,0 +1,82 @@
+I"�#<h4 id="问题描述">问题描述</h4>
+
+<p>给定一个长为n的整数序列\({a_0,a_1,a_2,...,a_n}\)，求这个序列中最长的上升子序列的<strong>长度</strong>。上升子序列指的是对于任意的\(i&lt;j\)都满足\(a_i&lt;a_j\)的子序列。</p>
+
+<p>例如序列<code class="language-plaintext highlighter-rouge">{2,1,5,3,6,4,6,3}</code>的<strong>LIS</strong>为<code class="language-plaintext highlighter-rouge">{1,3,4,6}</code>或<code class="language-plaintext highlighter-rouge">{2,3,4,6}</code>，长度为4。</p>
+
+<p><br /></p>
+
+<h4 id="问题分析">问题分析</h4>
+
+<p>动态规划的思想，遍历该序列，对于序列中的元素\(a_i\)，若该元素结尾的LIS的长度为\(d_i\)，则可以得到:</p>
+
+\[d_i= max(d_j) + 1 (0 &lt;=j &lt; i并且a_j &lt; a_i)\]
+
+<p>其含义就是，找寻位于该元素\(a_i\)前的比该元素小的元素\(a_j\)，那么以该元素结尾的LIS长度\(d_i\)便是以\(a_j\)结尾的LIS长度\(d_j+1\)，当然，因为是最长，所以要取所有\(d_j\)中的max。这便是该问题的一个基本的转移方程。</p>
+
+<p><br /></p>
+
+<h4 id="解决方案">解决方案</h4>
+
+<p>根据上述转移方程可以写出以下程序。</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">LIS</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">d</span><span class="p">[</span><span class="n">MAXN</span><span class="p">];</span>
+        <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="kt">int</span> <span class="n">max_len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_len</span><span class="p">)</span>
+                    <span class="n">max_len</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_len</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">max_len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">res</span> <span class="o">?</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">:</span> <span class="n">res</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>可以看出该程序的时间复杂度为\(O(n^2)\)，并且在向前遍历时存在了重复的操作，因此可以进行进一步改进。</p>
+
+<p><br /></p>
+
+<h4 id="优化方案">优化方案</h4>
+
+<p>记录\(d = i\)时最小的结尾元素值\(a_k\)，即：对于所有使得\(d_s = i\)的对于所有的\(s\),\(a_k &lt;= a_s\)。</p>
+
+<p>例如如下序列：</p>
+
+<p><img src="http://0.0.0.0:4000/images/lis.png" alt="img" class="center-image" /></p>
+
+<p>可以发现元素2和1的\(d\)值都为1，对于后面的元素来说，仅需要比1大就可以进行\(d\)值的更新，所以仅仅记录当\(d=1\)时的结尾元素最小值（1）就行了。</p>
+
+<p>下面是改进的方法，时间复杂度为\(O（nlogn）\)。</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">LIS</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">ans</span><span class="p">[</span><span class="n">MAXN</span><span class="p">];</span>
+        <span class="n">ans</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="kt">int</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">ans</span><span class="p">[</span><span class="n">cnt</span><span class="p">]){</span>
+                <span class="n">ans</span><span class="p">[</span><span class="o">++</span><span class="n">cnt</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">else</span><span class="p">{</span>
+                <span class="kt">int</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">lower_bound</span><span class="p">(</span><span class="n">ans</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ans</span> <span class="o">+</span> <span class="n">cnt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="n">ans</span><span class="p">;</span>
+                <span class="n">ans</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="c1">//这里用了一个比较巧妙的办法找到了a中比a[i]小的元素，并将其插入了ans中</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">cnt</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>数组\(ans[n]\)用来存储不同\(d\)对应的元素值，\(ans[i] = a\)代表\(d=i\)时最小的元素值为\(a\)。</p>
+
+<p><br /></p>
+
+<h4 id="题目">题目</h4>
+
+<p>1.<a href="https://leetcode-cn.com/problems/longest-increasing-subsequence/">最长上升子序列</a></p>
+:ET

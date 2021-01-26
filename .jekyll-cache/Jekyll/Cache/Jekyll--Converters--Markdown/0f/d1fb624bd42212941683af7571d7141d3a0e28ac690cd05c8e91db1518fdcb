@@ -1,0 +1,87 @@
+I"�
+<p>0911课</p>
+
+<ul>
+  <li>
+    <p><strong>伪设备</strong></p>
+
+    <p>重定向至dev/null，dev/zero直接丢弃或删除文件</p>
+
+    <p>例：</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/passwd <span class="o">&gt;</span> /dev/hull 
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>proc文件</strong></p>
+
+    <p>proc文件是提供一种简单途径来检查多种类型的系统信息文件,在/proc下。</p>
+  </li>
+  <li>
+    <p><strong>ls</strong></p>
+
+    <p>ls /dir 列出文件基本信息</p>
+
+    <p><code class="language-plaintext highlighter-rouge">-l</code> 详细信息</p>
+
+    <p><code class="language-plaintext highlighter-rouge">-i</code> 文件编号</p>
+
+    <p><code class="language-plaintext highlighter-rouge">-S</code> 按文件大小排列</p>
+
+    <p><code class="language-plaintext highlighter-rouge">-r</code> 逆序排列</p>
+  </li>
+  <li>
+    <p><strong>rm</strong></p>
+
+    <p><code class="language-plaintext highlighter-rouge">-i</code> 删除前逐一询问确认。</p>
+
+    <p><code class="language-plaintext highlighter-rouge">-f</code> 即使原档案属性设为唯读，亦直接删除，无需逐一确认。</p>
+
+    <p><code class="language-plaintext highlighter-rouge">-r</code> 将目录及以下之档案亦逐一删除。</p>
+  </li>
+  <li>
+    <p><strong>创建文件</strong></p>
+
+    <p>1.vi f1</p>
+
+    <p>2.输出重定向 &gt; f1</p>
+
+    <p>3.touch f1</p>
+
+    <p>4.cp /dir f1（f1不存在）</p>
+  </li>
+  <li>
+    <p><strong>cat</strong></p>
+
+    <p><code class="language-plaintext highlighter-rouge">&gt;</code>重定向</p>
+
+    <p><code class="language-plaintext highlighter-rouge">&gt;&gt;</code>添加</p>
+
+    <p>连接文件</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>f1 f2 <span class="o">&gt;</span>f3
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>head &amp; tail</strong></p>
+
+    <p>查看文件（从头，从末尾），默认显示前10行，<code class="language-plaintext highlighter-rouge">-n</code> 指定行数</p>
+
+    <p>tail :</p>
+
+    <p><code class="language-plaintext highlighter-rouge">+</code>35 从35行开始显示到末尾</p>
+
+    <p><code class="language-plaintext highlighter-rouge">-f</code> 显示增长过程</p>
+  </li>
+  <li>
+    <p><strong>mkdir</strong></p>
+
+    <p><code class="language-plaintext highlighter-rouge">-m</code> 设置文件夹权限（如：权限700当前用户拥有全部权限）</p>
+  </li>
+  <li>
+    <p><strong>man</strong></p>
+
+    <p>man [command] 显示命令的参数和用法</p>
+  </li>
+</ul>
+:ET

@@ -1,0 +1,201 @@
+I"�2<h3 id="描述统计学">描述统计学</h3>
+
+<p>综合概括分析客观现象的规律性数量特征</p>
+
+<p><img src="http://0.0.0.0:4000/images/s1.png" alt="img" class="center-image" /><em>分类</em></p>
+
+<h4 id="集中趋势">集中趋势</h4>
+
+<p>集中趋势：一组数据向其中心靠拢的倾向和程度。</p>
+
+<p>寻找水平代表值或中心值。</p>
+
+<ul>
+  <li>
+    <h5 id="均值mean">均值（Mean）</h5>
+
+    <p>定义:指在一组数据之中数据之和再处于数据个数，反应数据集中趋势的一项指标。</p>
+
+    <p><strong>python实现</strong></p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">a</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span><span class="c1">#3.5 
+</span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]])</span>
+<span class="n">b</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#第二维的均值
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>中位数（Median）</strong></p>
+
+    <p>定义：有限数集中排序后，位于中间的数叫做中位数。（偶数个取中间两个数的平均）</p>
+
+    <p><strong>python实现</strong></p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">np</span><span class="p">.</span><span class="n">median</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1">#3.0
+</span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">np</span><span class="p">.</span><span class="n">median</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1">#3.0
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>众数（Mode）</strong></p>
+
+    <p>定义：一组数据中出现次数最多的数值。</p>
+
+    <ul>
+      <li>存在多个众数的情况：1 2 2 3 3 中众数是2和3</li>
+      <li>存在无众数的情况：1 2 3 4 5中没有众数</li>
+      <li>可以应用于非数值型数据</li>
+    </ul>
+
+    <p><strong>python实现</strong></p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">mymode</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">flat</span><span class="p">)]</span>
+    <span class="n">max_count</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">flat</span><span class="p">)</span> <span class="k">if</span> <span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="n">i</span><span class="p">)</span><span class="o">==</span><span class="n">max_count</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">==</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">flat</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">y</span>
+</code></pre></div>    </div>
+
+    <p><img src="http://0.0.0.0:4000/images/statistics_adv.png" alt="img" class="center-image" /><em>优缺点</em></p>
+  </li>
+</ul>
+
+<h3 id="推断统计学">推断统计学</h3>
+
+<p>根据样本数据推断总体数据特征，对统计总体的未知数量特征做推断</p>
+
+<h3 id="泛化误差">泛化误差</h3>
+
+<p><code class="language-plaintext highlighter-rouge">x</code>：测试的样本</p>
+
+<p><code class="language-plaintext highlighter-rouge">f(x;D)</code>：由训练集D学得的模型f对x的预测输出</p>
+
+<p><code class="language-plaintext highlighter-rouge">y</code>：真实的输出</p>
+
+<p>算法的平方预测误差期望为：</p>
+
+\[Err(x) = [(y-f(x:D))^{2}]\]
+
+<p>学习算法f对测试样本的期望预测为：</p>
+
+\[\bar{f}(x)=E_{D}[f(x;D)]\]
+
+<p>也就是针对不同数据集D，f对x的预测值取其期望。</p>
+
+<h4 id="方差virance">方差（Virance）</h4>
+
+<p>反应一组数据的离散程度。</p>
+
+<p>使用样本数相同的不同训练集产生的方差为：</p>
+
+\[Var(x)=[E_D[(f(x;D)-\bar{f}(x))^{2}]]\]
+
+<p>度量同样大小的训练集的变动所导致的学习性能的变化，<code class="language-plaintext highlighter-rouge">刻画了数据扰动所造成的影响</code>。</p>
+
+<h4 id="偏差bias">偏差（Bias）</h4>
+
+<p>期望预测与真实标记间的误差成为偏差，为了方便取平方。</p>
+
+\[bias^{2}(x)=[\bar{f}(x)-y]^{2}\]
+
+<p>偏差度量了学习算法的预测与真实结果的偏离，<code class="language-plaintext highlighter-rouge">即刻画了学习算法本身的拟合能力</code>。</p>
+
+<h4 id="噪声">噪声</h4>
+
+<p>真实标记与数据集中的实际标记间的偏差，不可避免，来自于所取数据</p>
+
+\[\varepsilon^{2} = E_D[(y_D-y)^{2}]\]
+
+<p>表达了在当前任务上任何学习算法所能达到的期望泛化误差的下界，<code class="language-plaintext highlighter-rouge">刻画了学习问题本身的难度</code></p>
+
+<p><img src="http://0.0.0.0:4000/images/fhwc.png" alt="img" class="center-image" /><em>泛化误差的三个组成</em></p>
+
+<ul>
+  <li>
+    <p>欠拟合：方差小，偏差大</p>
+
+    <p>模型太过简单（处理办法：加特征或换成更为复杂的模型）</p>
+  </li>
+  <li>
+    <p>过拟合：方差大，偏差小</p>
+
+    <p>出现在充分训练后，拟合能力很强，但模型不具有普适性，轻微的数据扰动都会使学习器发生显著的变化。（处理办法：增加训练数据，降维）</p>
+  </li>
+</ul>
+
+<h4 id="偏差和方差的关系">偏差和方差的关系</h4>
+
+<p><img src="http://0.0.0.0:4000/images/fhwc_chart.png" alt="img" class="center-image" /><em>减少方差和偏差不可兼得</em></p>
+
+<h3 id="离散程度">离散程度</h3>
+
+<p>衡量指标：极差，方差</p>
+
+<p><strong>极差</strong></p>
+
+<p>数据集中最大值减去最小值</p>
+
+<p><strong>python实现</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="c1">#4
+</span></code></pre></div></div>
+
+<p><strong>方差</strong></p>
+
+<p>描述数据集中的每一个值与中心值的差异</p>
+
+\[\sigma^{2} = \frac{1}{N}\sum_{i=1}^N(X_i-\mu)^{2}\]
+
+<p>​	\(x_i\)代表第i个数据的观察值，\(\mu\)代表数据集的均值</p>
+
+<p>​</p>
+
+<p>​	<strong>python实现</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">var</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="偏态skewness">偏态（skewness）</h3>
+
+<p>定义：数据分布的不对称性称为偏态。</p>
+
+<p>偏态系数计算：</p>
+
+\[SK = \frac{n}{(n-1)(n-2)}\sum(\frac{x_i-\bar{x}}{s})^{3}\]
+
+<p>s为标准差，除以标准差是为了不同组数据之间也能进行比较。</p>
+
+<p><img src="http://0.0.0.0:4000/images/skewness.png" alt="img" class="center-image" /><em>偏态</em></p>
+
+<p><strong>python实现</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">Series</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">Series</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">a</span><span class="p">.</span><span class="n">skew</span><span class="p">()</span><span class="c1">#0.0
+</span></code></pre></div></div>
+
+<h3 id="峰度kurtosis">峰度（Kurtosis）</h3>
+
+<p>数据分布的扁平或尖峰的程度。</p>
+
+<p>峰度系数K计算：</p>
+
+\[K=\frac{n(n+1)}{(n-1)(n-2)(n-3)}\sum(\frac{x_i-\bar{x}}{s})^4-\frac{3(n-1)^2}{(n-2)(n-3)}\]
+
+<p><img src="http://0.0.0.0:4000/images/kurtosis.png" alt="img" class="center-image" /><em>峰度</em></p>
+
+<p><strong>python实现</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">Series</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">Series</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">a</span><span class="p">.</span><span class="n">kurt</span><span class="p">()</span><span class="c1">#-2.3242187500000018
+</span></code></pre></div></div>
+
+:ET

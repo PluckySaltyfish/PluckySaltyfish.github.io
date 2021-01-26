@@ -1,0 +1,90 @@
+I"'<h3 id="质数和因数">质数和因数</h3>
+
+<p>求质数是很基础的一个数学问题，首先得明确质数的概念：除了1和它本身没有其它因数的整数（从2开始）。</p>
+
+<p>最简单的质数算法：</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">prime</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span> <span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>简化的质数算法运用了一个很重要的数学知识：</p>
+
+<p>一个整数n（1，2除外），除了1和它本身之外，它的其它因数成对出现，（例如120 = 5*24，5和24都是120的因数），所以关心一个整数是否有除了1和它本身的因数，只需要关心每对数中的较小一个是否可以被n整除，即并不用从2遍历到它本身，只要从2遍历到sqrt(n)（极端情况是 n = sqrt(n)*sqrt(n),其中sqrt(n)为整数，为n的一个因数）。</p>
+
+<p>故简化后的质数算法可改为：</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">prime</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这个简化还可以用到更多场合，看一道例题：</p>
+
+<h4 id="题目描述">题目描述</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>求正整数N(N&gt;1)的质因数的个数。 相同的质因数需要重复计算。如120=2*2*2*3*5，共有5个质因数。
+</code></pre></div></div>
+
+<h4 id="输入描述">输入描述</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>可能有多组测试数据，每组测试数据的输入是一个正整数N，(1&lt;N&lt;10^9)。
+</code></pre></div></div>
+
+<h4 id="输出描述">输出描述</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>对于每组数据，输出N的质因数的个数。
+</code></pre></div></div>
+
+<h4 id="样例输入">样例输入</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>120
+</code></pre></div></div>
+
+<h4 id="样例输出">样例输出</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5
+</code></pre></div></div>
+
+<h4 id="分析">分析</h4>
+
+<p>题目说是找质因数，你可能会想着把质数先求一遍，然后每个除一下。别被题目骗了，事实上从小到大遍历除数的话，是不用区分除数是否是质数的。因为一个合数总能被分解成几个比它小的质数相乘，所以从小到大遍历的话，就早已经把这几个比它小的质数遍历了，不存在一个合数是因数的情况。</p>
+
+<p>其次需要注意的就是寻找因数的范围。之前我们提到，因数总是成对出现，并以<code class="language-plaintext highlighter-rouge">sqrt(n)</code>为界。所以我们任然可以选择只找小的那个因数，没找到一个就对n做整除，并且更新范围边界<code class="language-plaintext highlighter-rouge">sqrt(n)</code>的值。</p>
+
+<p>这样循环完成的结果就是最后剩下一个大于的因数<code class="language-plaintext highlighter-rouge">sqrt(n)</code>，故最后count要再加1。</p>
+
+<h4 id="示例代码">示例代码</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+#include &lt;cstring&gt;
+#include &lt;vector&gt;
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+    <span class="kt">int</span> <span class="n">number</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">number</span><span class="p">){</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">number</span><span class="p">);</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">number</span><span class="o">%</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">){</span>
+                <span class="n">number</span> <span class="o">/=</span> <span class="n">i</span><span class="p">;</span>
+                <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">number</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">count</span><span class="p">;</span>
+        
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+:ET

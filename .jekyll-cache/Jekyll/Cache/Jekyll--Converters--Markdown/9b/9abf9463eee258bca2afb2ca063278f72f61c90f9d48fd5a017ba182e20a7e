@@ -1,0 +1,56 @@
+I"K<h4 id="实现效果">实现效果</h4>
+<p><img src="http://0.0.0.0:4000/images/ontouch.gif" alt="img" class="center-image" /><em>实现效果</em></p>
+
+<p>如图，对于途中小的悬浮按钮，实现不触摸就隐藏，触摸就响应事件。</p>
+
+<h4 id="应用">应用</h4>
+<p>由这个可以扩展出很多失焦方法，如有一个悬浮窗，如果点击它的边界以外区域就关闭。（在我映像中ios10以前的AppStore一直这种关闭方法）。</p>
+
+<h4 id="原理">原理</h4>
+<p>给父组件添加<code class="language-plaintext highlighter-rouge">onTouchListener</code>。</p>
+
+<h4 id="代码">代码</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">recyclerView</span><span class="o">.</span><span class="na">setOnTouchListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">View</span><span class="o">.</span><span class="na">OnTouchListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">onTouch</span><span class="o">(</span><span class="nc">View</span> <span class="n">view</span><span class="o">,</span> <span class="nc">MotionEvent</span> <span class="n">motionEvent</span><span class="o">)</span> <span class="o">{</span>
+
+                <span class="n">mTaskFAB</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="nc">View</span><span class="o">.</span><span class="na">INVISIBLE</span><span class="o">);</span>
+                <span class="n">mResourceFAB</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="nc">View</span><span class="o">.</span><span class="na">INVISIBLE</span><span class="o">);</span>
+                <span class="n">mTaskFAB</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+                <span class="n">mResourceFAB</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+
+        <span class="n">mAddFAB</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">mTaskFAB</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="nc">View</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">);</span>
+                <span class="n">mResourceFAB</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="nc">View</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">);</span>
+                <span class="n">mTaskFAB</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+                <span class="n">mResourceFAB</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+                <span class="n">mTaskFAB</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+
+                        <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="nc">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span><span class="s">"left"</span><span class="o">,</span><span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+                    <span class="o">}</span>
+
+                <span class="o">});</span>
+                <span class="n">mResourceFAB</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">View</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+
+                        <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="nc">MainActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span><span class="s">"right"</span><span class="o">,</span><span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+                    <span class="o">}</span>
+
+                <span class="o">});</span>
+
+            <span class="o">}</span>
+        <span class="o">});</span>
+</code></pre></div></div>
+<blockquote class="note">
+  <p>Android本身提供一个焦点改变的监听器onFocusChangedListener，<br />
+似乎只针对EditText,并没有成功。</p>
+</blockquote>
+:ET

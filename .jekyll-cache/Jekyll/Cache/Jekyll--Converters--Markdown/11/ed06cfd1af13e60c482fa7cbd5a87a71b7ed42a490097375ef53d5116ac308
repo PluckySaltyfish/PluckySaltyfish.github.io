@@ -1,0 +1,52 @@
+I"<blockquote>
+  <p>其实今天是10月11号，马上19大我居然发这样一篇文章。。。</p>
+</blockquote>
+
+<h3 id="问题来源">问题来源</h3>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">某天晚上，清华的brew源挂了......</code></pre></figure>
+
+<h3 id="先前梯子对策">先前梯子对策</h3>
+<p>之前终端走不了代理，哪个ping不通就直接强行改个hosts，pip和brew用的国内镜像，npm用cnpm。<br />
+其实我见过的镜像党和代理党一半一半，做的好的镜像也没有那种更新跟不上速度。所以平时也就凑合着过了。<br />
+也试过配置终端代理，都说<code class="language-plaintext highlighter-rouge">socks5</code>的监听端口是<code class="language-plaintext highlighter-rouge">1080</code>，但是我一次配置都没成功。<br />
+再之后接触了<code class="language-plaintext highlighter-rouge">proxychains</code>，但是因为MacOS10.12+的<code class="language-plaintext highlighter-rouge">SIP</code>无法使用，关掉SIP我又觉得很怕。<br />
+再再之后我又接触了<code class="language-plaintext highlighter-rouge">proxifier</code>，这个很强大，可以让任意一个软件走代理，但是，要钱。</p>
+
+<p>最后我发现了这个<code class="language-plaintext highlighter-rouge">ShadowsocksX-NG</code>，因为一直也用的小飞机，所以这种使用方式比较习惯，如果上述的几个方式的缺陷你不care，也可以用啊。</p>
+
+<h3 id="工具">工具</h3>
+<ul>
+  <li>ShadowsocksX-NG</li>
+  <li>iTerm2</li>
+  <li>ss账号</li>
+</ul>
+
+<h3 id="步骤">步骤</h3>
+<ul>
+  <li>下载<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases/">ShadowSocksX-NG</a></li>
+  <li>配置ss账号<br />
+基本服务器设置啥的都和普通小飞机一样。</li>
+  <li>配置终端<br />
+然后我们点开<code class="language-plaintext highlighter-rouge">偏好设置</code>看监听端口号。<br />
+<img src="http://0.0.0.0:4000/images/agent_port.png" alt="img" class="center-image" /><em>http代理端口</em><br />
+如图是<code class="language-plaintext highlighter-rouge">1087</code>。<br />
+然后打开<code class="language-plaintext highlighter-rouge"> ~/.bash_profile</code>或者<code class="language-plaintext highlighter-rouge">~/.zshrc</code>,加入这一行：
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">alias </span><span class="nv">proxyon</span><span class="o">=</span><span class="s1">'export http_proxy=127.0.0.1:1087;export https_proxy=$http_proxy'</span>
+<span class="nb">alias </span><span class="nv">proxyoff</span><span class="o">=</span><span class="s1">'unset http_proxy;unset https_proxy'</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>最后重启终端，输入<code class="language-plaintext highlighter-rouge">proxyon</code>就可以用了。</p>
+<blockquote class="note">
+  <p>proxyon只在单个tab内，关闭后自动关闭。</p>
+</blockquote>
+
+<h3 id="测试">测试</h3>
+<p>🌚帮预备医生粒粒同学下载YouTube上的视频的工具：<code class="language-plaintext highlighter-rouge">youtube-dl</code><br />
+<img src="http://0.0.0.0:4000/images/youtube.png" alt="img" class="center-image" /><em>youtube-dl</em></p>
+
+<p>成功啦~</p>
+
+:ET

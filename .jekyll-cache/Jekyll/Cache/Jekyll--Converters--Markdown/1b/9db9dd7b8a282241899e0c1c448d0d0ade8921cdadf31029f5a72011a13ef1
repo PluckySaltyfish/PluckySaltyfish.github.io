@@ -1,0 +1,31 @@
+I"�	<blockquote>
+  <p>没有正规证明过程，因为wiki里有，大致讲一点道理。</p>
+</blockquote>
+
+<h3 id="问题描述">问题描述</h3>
+<p><img src="http://0.0.0.0:4000/images/coin_problem.png" alt="img" class="center-image" /><em>数学描述</em></p>
+
+<p>数学描述如图所示。</p>
+
+<h3 id="扩展欧几里得">扩展欧几里得</h3>
+<p>扩展欧几里得主要是证明，问题中给的所有数的最大公约数是<code class="language-plaintext highlighter-rouge">1</code>。<br />
+先假设只给我们两个数，这两个数有“最大不能表达的整数”所必要的条件是，它们的最大公约数是<code class="language-plaintext highlighter-rouge">1</code>，即互质。<br />
+关于这一点有两种思路：</p>
+<ul>
+  <li><strong>两个数线性组合能表达的整数是其最大公约数的倍数</strong>，这个你想一想就知道了。所以，如果两个数最大公约数不是1，那么任意不是它们最大公约数的倍数的数都不能被表达，故不存在最大的不能被表达的整数。多个数道理是一样的。</li>
+  <li>由<code class="language-plaintext highlighter-rouge">扩展欧几里得算法</code><br />
+<img src="http://0.0.0.0:4000/images/euclid.png" alt="img" /><br />
+这样想，如果存在不能被最大表示的数，那么必然从那个数开始以后的整数都能被表达，那么我们就想，之后的数，假设整数<code class="language-plaintext highlighter-rouge">X=am+bn</code>能被表达，那么<code class="language-plaintext highlighter-rouge">X+1=am+bn+1</code>也一定能被表达，所以<code class="language-plaintext highlighter-rouge">1</code>得被贝组公式表达。</li>
+</ul>
+
+<p>故，如果存在不能被最大表示的数，那么 <strong>所有数的最大公约数是<code class="language-plaintext highlighter-rouge">1</code></strong>。</p>
+
+<h3 id="这个数是几">这个数是几？</h3>
+<p>满足条件情况下，两个数是<code class="language-plaintext highlighter-rouge">a*b-a-b</code>，多个数可以类推。<br />
+关于这个式子的证明，有很多，有没有直观的道理呢？还没想到。<br />
+网上有人写的是<code class="language-plaintext highlighter-rouge">(a-1)(b-1)-1</code>，似乎有点道理在里面的样子，但是还是没怎么看出来……<br />
+已在知乎上提问，待解决。</p>
+<blockquote class="note">
+  <p>待解决项:a*b-a-b的直观表达是什么？</p>
+</blockquote>
+:ET

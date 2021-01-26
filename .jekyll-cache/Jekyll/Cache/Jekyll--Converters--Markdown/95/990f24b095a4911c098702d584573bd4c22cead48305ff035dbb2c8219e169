@@ -1,0 +1,146 @@
+I"A<h3 id="一些语料库">一些语料库</h3>
+
+<h5 id="古腾堡语料库">古腾堡语料库</h5>
+
+<p>电子小说及文学作品。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nltk.corpus.gutenberg
+</code></pre></div></div>
+
+<p><strong>网络聊天文本</strong></p>
+
+<p>论坛、剧本、评论、偶然听到的话</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nltk.corpus.webtext
+</code></pre></div></div>
+
+<p>即时消息聊天语料库</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nltk.corpus.nps_chat
+</code></pre></div></div>
+
+<p><strong>布朗语料库</strong></p>
+
+<p>布朗大学收集的百万级别的英语电子语料库</p>
+
+<p>用来研究文体之间的差异</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nltk.corpus.brown
+</code></pre></div></div>
+
+<p><strong>路透社语料库</strong></p>
+
+<p>新闻文档</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nltk.corpus.reuters
+</code></pre></div></div>
+
+<p><strong>就职演说语料库</strong></p>
+
+<p>按时间顺序存储的总统演讲</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nltk.corpus.inaugural
+</code></pre></div></div>
+
+<p><strong>发音词典</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nltk.corpus.cmudict
+</code></pre></div></div>
+
+<p><strong>比较词表</strong></p>
+
+<p>很多语言的同源词</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nltk.corpus.swadesh
+</code></pre></div></div>
+
+<p><strong>词汇语料库</strong></p>
+
+<p>常见词词典，可用于检查词汇的拼写</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nltk.corpus.words
+</code></pre></div></div>
+
+<p><strong>停用词语料库</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nltk.corpus.stopwords
+</code></pre></div></div>
+
+<p><strong>WordNet</strong></p>
+
+<p>面向语义的英文语料库</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nltk.corpus.wordnet
+</code></pre></div></div>
+
+<h3 id="一些语料库的方法">一些语料库的方法</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.</span><span class="n">words</span><span class="p">(</span><span class="n">fileid</span><span class="p">)</span> <span class="c1"># 获取单词
+</span><span class="p">.</span><span class="n">sents</span><span class="p">(</span><span class="n">fileid</span><span class="p">)</span> <span class="c1"># 获取句子
+</span><span class="p">.</span><span class="n">raw</span><span class="p">(</span><span class="n">fileid</span><span class="p">)</span> <span class="c1"># 获取原始文本，包括空格等符号
+</span><span class="p">.</span><span class="n">fileids</span><span class="p">()</span> <span class="c1"># 获取文件id
+</span>
+<span class="c1"># 不同语料库还有特殊的方法，如brown等含分类语料库有categories
+</span><span class="n">brown</span><span class="p">.</span><span class="n">categories</span><span class="p">()</span>
+<span class="n">words</span> <span class="o">=</span> <span class="n">brown</span><span class="p">.</span><span class="n">words</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="习题">习题</h3>
+
+<blockquote>
+  <p>轮到你来:选择布朗语料库的不同部分，修改前面的例子，计数包  wh 的词，如:what，when，where，who 和 why</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">adventure</span> <span class="o">=</span>  <span class="n">brown</span><span class="p">.</span><span class="n">words</span><span class="p">(</span><span class="n">categories</span> <span class="o">=</span> <span class="s">'adventure'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">wh</span> <span class="o">=</span> <span class="p">[</span><span class="s">'what'</span><span class="p">,</span><span class="s">'where'</span><span class="p">,</span><span class="s">'when'</span><span class="p">,</span><span class="s">'who'</span><span class="p">,</span><span class="s">'why'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fdist</span> <span class="o">=</span> <span class="n">nltk</span><span class="p">.</span><span class="n">FreqDist</span><span class="p">([</span><span class="n">w</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">adventure</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">wh</span><span class="p">:</span>
+<span class="p">...</span>     <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="s">':'</span><span class="p">,</span><span class="n">fdist</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">end</span> <span class="o">=</span><span class="s">' '</span><span class="p">)</span>
+<span class="p">...</span>
+<span class="n">what</span> <span class="p">:</span> <span class="mi">149</span> <span class="n">where</span> <span class="p">:</span> <span class="mi">58</span> <span class="n">when</span> <span class="p">:</span> <span class="mi">173</span> <span class="n">who</span> <span class="p">:</span> <span class="mi">95</span> <span class="n">why</span> <span class="p">:</span> <span class="mi">30</span> <span class="o">&gt;&gt;&gt;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>轮到你来:处理 布朗语 料库的 新闻和 言情文 体，找出 一周中 最有新 闻价值 并且是 最浪漫的日子。定义一个变量 days 包 星期的链表，如[‘Monday’, …]。然后使用 cfd.tabulate(samples=days)为这些词的计数制表。接下来用绘图替 代制表尝试同样的事情。你可以在额外的参数 conditions=[‘Monday’, …]的 帮助 下控制 星期输出的顺 序。</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">brown</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">days</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Monday'</span><span class="p">,</span><span class="s">'Tuesday'</span><span class="p">,</span><span class="s">'Wednesday'</span><span class="p">,</span><span class="s">'Thursday'</span><span class="p">,</span><span class="s">'Friday'</span><span class="p">,</span><span class="s">'Saturday'</span><span class="p">,</span><span class="s">'Sunday'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="s">'news'</span><span class="p">,</span><span class="s">'romance'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">cfd</span> <span class="o">=</span> <span class="n">nltk</span><span class="p">.</span><span class="n">ConditionalFreqDist</span><span class="p">((</span><span class="n">category</span><span class="p">,</span><span class="n">day</span><span class="p">)</span> <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">categories</span> <span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="n">days</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">brown</span><span class="p">.</span><span class="n">words</span><span class="p">(</span><span class="n">categories</span> <span class="o">=</span> <span class="n">category</span><span class="p">)</span> <span class="k">if</span> <span class="n">w</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">day</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">cfd</span><span class="p">.</span><span class="n">plot</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="http://0.0.0.0:4000/images/days.png" alt="img" class="center-image" /></p>
+
+<h4 id="发音词典">发音词典</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 你可以总结一下下面的例子的 功能，并解释它们是如何实现的?
+</span><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">pron</span> <span class="ow">in</span> <span class="n">entries</span> <span class="k">if</span> <span class="n">pron</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">'M'</span> <span class="ow">and</span> <span class="n">w</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">'n'</span><span class="p">]</span>
+<span class="p">[</span><span class="s">'autumn'</span><span class="p">,</span> <span class="s">'column'</span><span class="p">,</span> <span class="s">'condemn'</span><span class="p">,</span> <span class="s">'damn'</span><span class="p">,</span> <span class="s">'goddamn'</span><span class="p">,</span> <span class="s">'hymn'</span><span class="p">,</span> <span class="s">'solemn'</span><span class="p">]</span>
+<span class="c1"># n在末尾不发音的词
+</span><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">w</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">pron</span> <span class="ow">in</span> <span class="n">entries</span> <span class="k">if</span> <span class="n">pron</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">'N'</span> <span class="ow">and</span> <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">'n'</span><span class="p">))</span>
+<span class="p">[</span><span class="s">'gn'</span><span class="p">,</span> <span class="s">'kn'</span><span class="p">,</span> <span class="s">'mn'</span><span class="p">,</span> <span class="s">'pn'</span><span class="p">]</span>
+<span class="c1"># 第一个字母不发音，发n的音的词
+</span></code></pre></div></div>
+
+<h4 id="wordnet">WordNet</h4>
+
+<blockquote>
+  <p>轮到你来:Write down all the senses of the word dish that you can think of. Now, explore this word with the help of WordNet, using the same operations we used above.</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">synset</span> <span class="ow">in</span> <span class="n">wn</span><span class="p">.</span><span class="n">synsets</span><span class="p">(</span><span class="s">'dish'</span><span class="p">):</span>
+<span class="p">...</span>     <span class="k">print</span><span class="p">(</span><span class="n">synset</span><span class="p">.</span><span class="n">lemma_names</span><span class="p">(),</span><span class="s">':'</span><span class="p">,</span><span class="n">synset</span><span class="p">.</span><span class="n">definition</span><span class="p">())</span>
+<span class="p">...</span>
+<span class="p">[</span><span class="s">'dish'</span><span class="p">]</span> <span class="p">:</span> <span class="n">a</span> <span class="n">piece</span> <span class="n">of</span> <span class="n">dishware</span> <span class="n">normally</span> <span class="n">used</span> <span class="k">as</span> <span class="n">a</span> <span class="n">container</span> <span class="k">for</span> <span class="n">holding</span> <span class="ow">or</span> <span class="n">serving</span> <span class="n">food</span>
+<span class="p">[</span><span class="s">'dish'</span><span class="p">]</span> <span class="p">:</span> <span class="n">a</span> <span class="n">particular</span> <span class="n">item</span> <span class="n">of</span> <span class="n">prepared</span> <span class="n">food</span>
+<span class="p">[</span><span class="s">'dish'</span><span class="p">,</span> <span class="s">'dishful'</span><span class="p">]</span> <span class="p">:</span> <span class="n">the</span> <span class="n">quantity</span> <span class="n">that</span> <span class="n">a</span> <span class="n">dish</span> <span class="n">will</span> <span class="n">hold</span>
+<span class="p">[</span><span class="s">'smasher'</span><span class="p">,</span> <span class="s">'stunner'</span><span class="p">,</span> <span class="s">'knockout'</span><span class="p">,</span> <span class="s">'beauty'</span><span class="p">,</span> <span class="s">'ravisher'</span><span class="p">,</span> <span class="s">'sweetheart'</span><span class="p">,</span> <span class="s">'peach'</span><span class="p">,</span> <span class="s">'lulu'</span><span class="p">,</span> <span class="s">'looker'</span><span class="p">,</span> <span class="s">'mantrap'</span><span class="p">,</span> <span class="s">'dish'</span><span class="p">]</span> <span class="p">:</span> <span class="n">a</span> <span class="n">very</span> <span class="n">attractive</span> <span class="ow">or</span> <span class="n">seductive</span> <span class="n">looking</span> <span class="n">woman</span>
+<span class="p">[</span><span class="s">'dish'</span><span class="p">,</span> <span class="s">'dish_aerial'</span><span class="p">,</span> <span class="s">'dish_antenna'</span><span class="p">,</span> <span class="s">'saucer'</span><span class="p">]</span> <span class="p">:</span> <span class="n">directional</span> <span class="n">antenna</span> <span class="n">consisting</span> <span class="n">of</span> <span class="n">a</span> <span class="n">parabolic</span> <span class="n">reflector</span> <span class="k">for</span> <span class="n">microwave</span> <span class="ow">or</span> <span class="n">radio</span> <span class="n">frequency</span> <span class="n">radiation</span>
+<span class="p">[</span><span class="s">'cup_of_tea'</span><span class="p">,</span> <span class="s">'bag'</span><span class="p">,</span> <span class="s">'dish'</span><span class="p">]</span> <span class="p">:</span> <span class="n">an</span> <span class="n">activity</span> <span class="n">that</span> <span class="n">you</span> <span class="n">like</span> <span class="ow">or</span> <span class="n">at</span> <span class="n">which</span> <span class="n">you</span> <span class="n">are</span> <span class="n">superior</span>
+<span class="p">[</span><span class="s">'serve'</span><span class="p">,</span> <span class="s">'serve_up'</span><span class="p">,</span> <span class="s">'dish_out'</span><span class="p">,</span> <span class="s">'dish_up'</span><span class="p">,</span> <span class="s">'dish'</span><span class="p">]</span> <span class="p">:</span> <span class="n">provide</span> <span class="p">(</span><span class="n">usually</span> <span class="n">but</span> <span class="ow">not</span> <span class="n">necessarily</span> <span class="n">food</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'dish'</span><span class="p">]</span> <span class="p">:</span> <span class="n">make</span> <span class="n">concave</span><span class="p">;</span> <span class="n">shape</span> <span class="n">like</span> <span class="n">a</span> <span class="n">dish</span>
+</code></pre></div></div>
+
+:ET

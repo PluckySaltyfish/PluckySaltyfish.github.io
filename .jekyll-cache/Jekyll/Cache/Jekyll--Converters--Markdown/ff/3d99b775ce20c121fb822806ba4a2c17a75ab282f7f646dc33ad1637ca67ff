@@ -1,0 +1,60 @@
+I"� <h5 id="问题描述">问题描述</h5>
+<p><img src="http://0.0.0.0:4000/images/horse.png" alt="img" class="center-image" /></p>
+
+<h5 id="输出格式">输出格式</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>输出一个整数，代表从 A 点走到 B点的所有路径数。
+</code></pre></div></div>
+
+<h5 id="样例输入">样例输入</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5 5 2 4
+</code></pre></div></div>
+
+<h5 id="样例输出">样例输出</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>14
+</code></pre></div></div>
+
+<h5 id="分析">分析</h5>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">能到达某点的路数等于到达其相邻左边和上边点的路数之和。马能控制点置0。递归。</code></pre></figure>
+
+<h5 id="参考代码">参考代码</h5>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">MAX_N</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">cx</span><span class="p">,</span><span class="n">cy</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">dx</span><span class="p">[]</span><span class="o">=</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">};</span>
+    <span class="kt">int</span> <span class="n">dy</span><span class="p">[]</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">};</span>
+    <span class="kt">int</span> <span class="n">control</span><span class="p">[</span><span class="n">MAX_N</span><span class="p">][</span><span class="n">MAX_N</span><span class="p">];</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%d %d %d %d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">,</span><span class="o">&amp;</span><span class="n">m</span><span class="p">,</span><span class="o">&amp;</span><span class="n">cx</span><span class="p">,</span><span class="o">&amp;</span><span class="n">cy</span><span class="p">);</span>
+    <span class="n">memset</span><span class="p">(</span><span class="n">control</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">control</span><span class="p">));</span>
+
+    <span class="n">control</span><span class="p">[</span><span class="n">cx</span><span class="p">][</span><span class="n">cy</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">control</span><span class="p">[</span><span class="n">cx</span><span class="o">+</span><span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="n">cy</span><span class="o">+</span><span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">long</span> <span class="kt">long</span> <span class="n">num_road</span><span class="p">[</span><span class="n">MAX_N</span><span class="p">][</span><span class="n">MAX_N</span><span class="p">];</span>
+    <span class="n">memset</span><span class="p">(</span><span class="n">num_road</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">num_road</span><span class="p">));</span>
+    <span class="n">num_road</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">control</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">num_road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">num_road</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">num_road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">num_road</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%lld"</span><span class="p">,</span><span class="n">num_road</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">m</span><span class="p">]);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

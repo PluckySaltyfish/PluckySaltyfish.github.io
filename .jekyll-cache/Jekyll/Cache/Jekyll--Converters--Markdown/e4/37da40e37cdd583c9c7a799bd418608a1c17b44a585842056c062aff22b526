@@ -1,0 +1,50 @@
+I"�<h6 id="题目描述">题目描述</h6>
+
+<p>给定一组非负整数，重新排列它们的顺序使之组成一个最大的整数。</p>
+
+<p><a href="https://leetcode-cn.com/problems/largest-number/">题目链接</a></p>
+
+<h5 id="样例输入">样例输入</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[3,30,34,5,9]
+</code></pre></div></div>
+
+<h5 id="样例输出">样例输出</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>9534330
+</code></pre></div></div>
+
+<h4 id="解题思路">解题思路</h4>
+
+<p>实际上这个是今年OPPO二面的一道口答题，在LeetCode上找到了原题。之前在和鑫神在想逻辑，思路都是怎么在暴力比较的办法里优化，但是却没有想到仅仅通过定义自定义排序规则就可以直接实现，着实感慨。</p>
+
+<p>思路就是对数列进行排序，然后依照顺序直接进行拼接。唯一需要知道的排序条件就是：对于两个数A和B，如果AB&gt;BA，那么A就放在B的前面。</p>
+
+<h4 id="示例代码">示例代码</h4>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">bool</span> <span class="k">static</span> <span class="n">cmp</span><span class="p">(</span><span class="n">string</span> <span class="n">s1</span><span class="p">,</span><span class="n">string</span> <span class="n">s2</span><span class="p">){</span>
+        <span class="n">string</span> <span class="n">a</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span><span class="p">;</span>
+        <span class="n">string</span> <span class="n">b</span> <span class="o">=</span> <span class="n">s2</span> <span class="o">+</span> <span class="n">s1</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">string</span> <span class="n">largestNumber</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="n">s_nums</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">s_nums</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">to_string</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+        <span class="p">}</span>
+        <span class="n">sort</span><span class="p">(</span><span class="n">s_nums</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">s_nums</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">cmp</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">s_nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">"0"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s">"0"</span><span class="p">;</span>
+        <span class="n">string</span> <span class="n">res</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="n">s_nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+:ET

@@ -1,0 +1,62 @@
+I"�<h3 id="问题说明">问题说明</h3>
+
+<p>有一个已经赋值了的<code class="language-plaintext highlighter-rouge">vector&lt;int&gt;v1</code>，如果访<code class="language-plaintext highlighter-rouge">v1[v1.size()]</code>会怎么样？如果通过<code class="language-plaintext highlighter-rouge">vector&lt;int&gt;v2=v1</code>,访问<code class="language-plaintext highlighter-rouge">v2[v2.size()</code>会怎样？如果以此遍历<code class="language-plaintext highlighter-rouge">v1</code>将值<code class="language-plaintext highlighter-rouge">push_back()</code>或<code class="language-plaintext highlighter-rouge">emplace_back()</code>会怎样？其它赋值方式呢？</p>
+
+<h3 id="实验">实验</h3>
+
+<blockquote>
+  <p>基于<code class="language-plaintext highlighter-rouge">g++ 8.2</code> 采用最新C++ 17标准</p>
+
+  <p>开启<a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">AddressSanitizer</a>检测<code class="language-plaintext highlighter-rouge">out-of-bounds</code>和<code class="language-plaintext highlighter-rouge">use-after-free</code></p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>有一个已经赋值了的<code class="language-plaintext highlighter-rouge">vector&lt;int&gt;v1</code>，如果访<code class="language-plaintext highlighter-rouge">v1[v1.size()]</code>会怎么样？</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>溢出
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>如果通过<code class="language-plaintext highlighter-rouge">vector&lt;int&gt;v2=v1</code>,访问<code class="language-plaintext highlighter-rouge">v2[v2.size()</code>会怎样？</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>溢出
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>如果以此遍历<code class="language-plaintext highlighter-rouge">v1</code>将值<code class="language-plaintext highlighter-rouge">push_back()</code>或<code class="language-plaintext highlighter-rouge">emplace_back()</code>会怎样？</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>返回一个负值，但不报错
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>其它赋值方式:<strong>copy</strong>(v2必须已经赋值)</p>
+
+    <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">v1</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">v2</span><span class="p">.</span><span class="n">begin</span><span class="p">());</span>
+<span class="c1">//溢出</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>其它赋值方式:构造函数初始化</p>
+
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v2</span><span class="p">(</span><span class="n">v1</span><span class="p">);</span>
+<span class="c1">//溢出</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>其它赋值方式:<strong>assign</strong></p>
+
+    <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">v2</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">v1</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">v1</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+<span class="c1">//溢出</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="结论">结论</h3>
+
+<ul>
+  <li>除了一个一个push进去，其它方式都会溢出，说明其它方式赋值和push/emplace的实现不一样(我以为assign是一样的呢)。</li>
+  <li>但是其实会报overflow是AddressSanitizer的问题，不加AddressSanitizer都是报一个负值，不知道AddressSanitizer对overflow的判断是怎么样的。</li>
+  <li>还是少写这种越界的东西就vans了。</li>
+</ul>
+:ET

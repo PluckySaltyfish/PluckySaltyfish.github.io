@@ -1,0 +1,197 @@
+I"*E<h4 id="正则表达式练习题">正则表达式练习题</h4>
+
+<blockquote>
+  <p>1.写一个正则表达式，使其能同时识别下面所有的字符串：’bat’,’bit’, ‘but’, ‘hat’, ‘hit’, ‘hut’</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'^[bh][aiu]t$'</span>
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s">'bat'</span><span class="p">,</span><span class="s">'bit'</span><span class="p">,</span> <span class="s">'but'</span><span class="p">,</span> <span class="s">'hat'</span><span class="p">,</span> <span class="s">'hit'</span><span class="p">,</span> <span class="s">'hut'</span><span class="p">,</span><span class="s">'sdfsdf'</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)]</span>
+<span class="c1"># ['bat', 'bit', 'but', 'hat', 'hit', 'hut']
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>2.匹配由单个空格分隔的任意单词对，也就是姓和名</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'^\w+ \w+$'</span>
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s">'li lei'</span><span class="p">,</span><span class="s">'han meimei'</span><span class="p">,</span><span class="s">'jack u'</span><span class="p">,</span><span class="s">'wu yifan'</span><span class="p">,</span><span class="s">'sdfsdf'</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)]</span>
+<span class="c1"># ['li lei', 'han meimei', 'jack u', 'wu yifan']
+</span></code></pre></div></div>
+
+<blockquote>
+  <ol>
+    <li>匹配由单个逗号和单个空白符分隔的任何单词和单个字母,如姓氏的首字母</li>
+  </ol>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'^\w+[ ,]\w+$'</span>
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s">'li lei'</span><span class="p">,</span><span class="s">'han meimei'</span><span class="p">,</span><span class="s">'jack u'</span><span class="p">,</span><span class="s">'wu yifan'</span><span class="p">,</span><span class="s">'sdfsdf'</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)]</span>
+<span class="c1"># ['li lei', 'han meimei', 'jack u', 'wu yifan']
+</span></code></pre></div></div>
+
+<blockquote>
+  <ol>
+    <li>匹配所有的有效的Python标识符集合</li>
+  </ol>
+</blockquote>
+
+<p>在python里，标识符有字母、数字、下划线组成。</p>
+
+<p>所有标识符可以包括英文、数字以及下划线（_），但不能以数字开头。python中的标识符是区分大小写的。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'^[a-zA-Z_]\w*$'</span>
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s">'_abstract'</span><span class="p">,</span><span class="s">'python_1'</span><span class="p">,</span><span class="s">'2hello'</span><span class="p">,</span><span class="s">'Pra_'</span><span class="p">,</span><span class="s">'@sdfasdf'</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)]</span>
+<span class="c1"># ['li lei', 'han meimei', 'jack u', 'wu yifan']
+</span></code></pre></div></div>
+
+<p>这题不严谨，严谨的话要判断是否是关键字: (import keyword)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="n">keyword</span><span class="p">.</span><span class="n">iskeyword</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<blockquote>
+  <ol>
+    <li>根据美国街道地址格式,匹配街道地址。美国街道地址使用如下格式:1180 Bordeaux Drive。使你的正则表达式足够灵活,以支持多单词的街道名称,如3120 De la Cruz Boulevard</li>
+  </ol>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'^\d+( [a-zA-Z]+)+$'</span>
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s">'3120 De la Cruz Boulevard'</span><span class="p">,</span><span class="s">'1180 Bordeaux Drive'</span><span class="p">,</span><span class="s">'345 sdfd sdf sdf'</span><span class="p">,</span><span class="s">'sdfs sdfs sdf'</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)]</span>
+<span class="c1"># ['3120 De la Cruz Boulevard', '1180 Bordeaux Drive', '345 sdfd sdf sdf']
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>6.匹配以“www”起始且以“.com”结尾的简单Web域名:例如,http://www.yahoo.com ，也支持其他域名，如.edu .net等</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'w{3}\.[\w-]{,20}\.(?:com|net|edu)'</span>
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="s">'www.pluckytyx.top sdf www.plucky.com  sdf www.magnet.cn www.jiangnan.edu wmmm.asdf.com www.lll.net'</span>
+<span class="o">&gt;</span> <span class="n">re</span><span class="p">.</span><span class="n">findall</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">s</span><span class="p">)</span>
+<span class="c1"># ['www.plucky.com', 'www.jiangnan.edu', 'www.lll.net']
+</span></code></pre></div></div>
+
+<p>这题不能较真。</p>
+
+<blockquote>
+  <ol>
+    <li>匹配所有能够表示Python整数的字符串集</li>
+  </ol>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'^[-+]?(0+|[1-9][0-9]*)$'</span> 
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'123'</span><span class="p">,</span><span class="s">'-123'</span><span class="p">,</span><span class="s">'---10'</span><span class="p">,</span><span class="s">'0009'</span><span class="p">,</span><span class="s">'0'</span><span class="p">,</span><span class="s">'0000'</span><span class="p">,</span><span class="s">'23423'</span><span class="p">,</span><span class="s">'45345'</span><span class="p">,</span><span class="s">'0123'</span><span class="p">,</span><span class="s">'123'</span><span class="p">,</span><span class="s">'0019'</span><span class="p">]]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)]</span>
+<span class="c1"># ['123','-123','---10','0009','0','0000','23423','45345','0123','123','0019']
+</span></code></pre></div></div>
+
+<p>0123这种python解释器不认。</p>
+
+<blockquote>
+  <p>8.匹配所有能够表示Python长整数的字符串集</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'^[-+]?(0+|[1-9][0-9]*)L$'</span> 
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'123'</span><span class="p">,</span><span class="s">'-123'</span><span class="p">,</span><span class="s">'---10'</span><span class="p">,</span><span class="s">'0009'</span><span class="p">,</span><span class="s">'0'</span><span class="p">,</span><span class="s">'0000'</span><span class="p">,</span><span class="s">'23423L'</span><span class="p">,</span><span class="s">'45345L'</span><span class="p">,</span><span class="s">'0123'</span><span class="p">,</span><span class="s">'123'</span><span class="p">,</span><span class="s">'0019'</span><span class="p">]]</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)]</span>
+<span class="c1"># ['23423L','45345L']
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>9.匹配所有能够表示Python浮点数的字符串集</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'^[-+]?\d*\.\d*$'</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>10.匹配一行文字中的所有开头的字母内容</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'^[a-zA-Z]+'</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>11.匹配一行文字中的所有开头的数字内容</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'^\d+'</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>12.匹配一行文字中的所有开头的数字内容或字母内容</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'^\w+'</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>13.提取’‘nihao 2018-08-08 02:29:01 hhh’‘中完整的年月日和时间字段</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>14.匹配\home关键字：</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'\\home'</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>15.去除以下html文件中的标签，只显示文本信息。</p>
+</blockquote>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div&gt;</span>
+<span class="nt">&lt;p&gt;</span>岗位职责：<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>完成推荐算法、数据统计、接口、后台等服务器端相关工作<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;&lt;br&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>必备要求：<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>良好的自我驱动力和职业素养，工作积极主动、结果导向<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span> <span class="nt">&lt;br&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>技术要求：<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>1、一年以上 Python 开发经验，掌握面向对象分析和设计，了解设计模式<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>2、掌握HTTP协议，熟悉MVC、MVVM等概念以及相关WEB开发框架<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>3、掌握关系数据库开发设计，掌握 SQL，熟练使用 MySQL/PostgreSQL 中的一种<span class="nt">&lt;br&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>4、掌握NoSQL、MQ，熟练使用对应技术解决方案<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>5、熟悉 Javascript/CSS/HTML5，JQuery、React、Vue.js<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span> <span class="nt">&lt;br&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>加分项：<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>大数据，数理统计，机器学习，sklearn，高性能，大并发。<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span> 
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'&lt;/?\w+&gt;'</span>
+<span class="o">&gt;</span> <span class="n">re</span><span class="p">.</span><span class="n">sub</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="s">''</span><span class="p">,</span><span class="n">s</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>16.将以下网址提取出域名：</p>
+</blockquote>
+
+<p>http://www.interoem.com/messageinfo.asp?id=35`<br />
+http://3995503.com/class/class09/news_show.asp?id=14<br />
+http://lib.wzmc.edu.cn/news/onews.asp?id=769<br />
+http://www.zy-ls.com/alfx.asp?newsid=377&amp;id=6<br />
+http://www.fincm.com/newslist.asp?id=415</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'http://([\w\-.]+)/'</span>
+<span class="o">&gt;</span> <span class="n">re</span><span class="p">.</span><span class="n">findall</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">s</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>17.提取出如下字符串中的单词：</p>
+</blockquote>
+
+<p>hello  world   ha  ha</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">应该是指分割空白</span>
+<span class="o">&gt;</span> <span class="n">re</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s">'\s+'</span><span class="p">,</span><span class="n">s</span><span class="p">)</span>
+</code></pre></div></div>
+
+:ET

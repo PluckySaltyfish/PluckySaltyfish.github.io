@@ -1,0 +1,18 @@
+I"=<h3 id="nltktexttext的方法">nltk.text.Text的方法</h3>
+
+<h5 id="查找上下文">查找上下文</h5>
+
+<p><code class="language-plaintext highlighter-rouge">.concordance(word, width=79, lines=25)</code>在text中查找和word一致的句子，显示其上下文，不区分大小写。</p>
+
+<p><code class="language-plaintext highlighter-rouge">.similar(word, num=20)</code>在text中查找上下文与word相同的词。</p>
+
+<p><code class="language-plaintext highlighter-rouge">.common_contexts(word, num=20)</code>在text中查找word的上下文（按出现频率由高到低排序），当word为列表时，列出列表中词相同的上下文。</p>
+
+<p><img src="http://0.0.0.0:4000/images/image-20180925114504608.png" alt="img" class="center-image" /></p>
+
+<h4 id="离散图">离散图</h4>
+
+<p><code class="language-plaintext highlighter-rouge">.dispersion_plot(word) </code>显示指定word的离散词频，横轴代表整篇文章，一道竖线代表出现一次。</p>
+
+<p><img src="http://0.0.0.0:4000/images/dispersion.png" alt="img" class="center-image" /></p>
+:ET

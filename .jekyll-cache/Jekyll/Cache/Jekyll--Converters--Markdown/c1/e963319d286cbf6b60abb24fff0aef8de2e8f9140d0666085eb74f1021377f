@@ -1,0 +1,54 @@
+I"�<p>代码中的写法是ntlk3.3。</p>
+
+<h3 id="频率分布">频率分布</h3>
+
+<blockquote>
+  <p>1:使用 text2 尝试前面的频率分布的例子。注意正确使用括号和 大写字母。</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fdist2</span> <span class="o">=</span> <span class="n">FreqDist</span><span class="p">(</span><span class="n">text2</span><span class="p">)</span>
+<span class="n">vocabulary</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">fdist</span><span class="p">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">vocabulary</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h3 id="细粒度的选择词">细粒度的选择词</h3>
+
+<blockquote>
+  <p>2:在 Python 解释器中尝试上面的表达式，改变文本和长度条件做 一些实验。如果改变变量名，你的结果会产生什么变化吗?如使用[word for word in vocab if …]</p>
+</blockquote>
+
+<p>相关Python语法见<a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001431779637539089fd627094a43a8a7c77e6102e3a811000">廖雪峰的Python教程</a></p>
+
+<h3 id="词语搭配和双联词">词语搭配和双联词</h3>
+
+<p>bigrams()是一个生成器，获取值和捕获异常，循环输出见<a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014317799226173f45ce40636141b6abc8424e12b5fb27000">廖雪峰的Python教程</a></p>
+
+<h3 id="条件">条件</h3>
+
+<blockquote>
+  <p>3:运行下面的例子，尝试解释每一条指令中所发生的事情。然后， 试着自己组合一些条件</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">text7</span><span class="p">)</span> <span class="k">if</span> <span class="s">'-'</span> <span class="ow">in</span> <span class="n">w</span> <span class="ow">and</span> <span class="s">'index'</span> <span class="ow">in</span> <span class="n">w</span><span class="p">])</span>
+<span class="c1"># 连接词，并且含有index
+</span><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">wd</span> <span class="k">for</span> <span class="n">wd</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">text3</span><span class="p">)</span> <span class="k">if</span> <span class="n">wd</span><span class="p">.</span><span class="n">istitle</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">wd</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">])</span> 
+<span class="c1"># 长度大于10的句首词
+</span><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">sent7</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">w</span><span class="p">.</span><span class="n">islower</span><span class="p">()])</span>
+<span class="c1"># 非全部小写的词
+</span><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">text2</span><span class="p">)</span> <span class="k">if</span> <span class="s">'cie'</span> <span class="ow">in</span> <span class="n">t</span> <span class="ow">or</span> <span class="s">'cei'</span> <span class="ow">in</span> <span class="n">t</span><span class="p">])</span>
+<span class="c1"># 含‘cie’或‘cei’的词
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>4.这个例子稍微有些复杂:将所有纯字母组成的词小写。也许只计数小写的词会更简单一</p>
+
+  <p>些，但这却是一个错误的答案(为什么?)。</p>
+</blockquote>
+
+<p>原文是“This example is slightly complicated: it lowercases all the purely alphabetic items. Perhaps it would have been simpler just to count the lowercase-only items, but this gives the wrong answer (why?).”</p>
+
+<p>意思是说，上述操作为了得到所有词的集合，将所有的纯字母单词变成了小写才进行计数，那为什么不直接进行只含小写字母单词的计数呢？</p>
+
+<p>很明显，因为有些词在文本中出现但不一定存在全部小写的形式。</p>
+:ET

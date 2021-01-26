@@ -1,0 +1,140 @@
+I"�A<h4 id="自定义排序">自定义排序</h4>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//sort格式</span>
+<span class="n">sort</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">buf</span><span class="o">+</span><span class="n">n</span><span class="p">,</span><span class="n">cmp</span><span class="p">);</span>
+<span class="c1">//1.降序</span>
+<span class="kt">bool</span> <span class="nf">cmp</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span><span class="kt">int</span> <span class="n">y</span><span class="p">){</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">&gt;</span><span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">//2.自定义数据结构的排序</span>
+<span class="k">struct</span> <span class="nc">E</span><span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="kt">bool</span> <span class="nf">cmp</span><span class="p">(</span><span class="n">E</span> <span class="n">x</span><span class="p">,</span> <span class="n">E</span> <span class="n">y</span><span class="p">){</span>
+    <span class="c1">//优先级由高到低</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">a</span><span class="o">!=</span><span class="n">y</span><span class="p">.</span><span class="n">a</span><span class="p">)</span><span class="k">return</span> <span class="n">x</span><span class="p">.</span><span class="n">a</span><span class="o">&lt;</span><span class="n">y</span><span class="p">.</span><span class="n">a</span><span class="p">;</span><span class="c1">//a属性升序排列</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">b</span><span class="o">!=</span><span class="n">y</span><span class="p">.</span><span class="n">b</span><span class="p">)</span><span class="k">return</span> <span class="n">x</span><span class="p">.</span><span class="n">b</span><span class="o">&gt;</span><span class="n">y</span><span class="p">.</span><span class="n">b</span><span class="p">;</span><span class="c1">//a属性相同则b属性降序排列</span>
+    <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="n">y</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">tmp</span><span class="p">)</span><span class="k">return</span> <span class="n">tmp</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">;</span><span class="c1">//b属性相同则name属性字典序升序排列</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="n">x</span><span class="p">.</span><span class="n">c</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">.</span><span class="n">c</span><span class="p">;</span><span class="c1">//name相同则c属性升序排列</span>
+<span class="p">}</span>
+<span class="c1">//3.重载操作符</span>
+<span class="k">struct</span> <span class="nc">E</span><span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+    <span class="kt">bool</span> <span class="k">operator</span> <span class="o">&lt;</span> <span class="p">(</span><span class="k">const</span> <span class="n">E</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">)</span><span class="k">const</span><span class="p">{</span>
+        <span class="c1">//和上面一样 </span>
+        <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">a</span><span class="o">!=</span><span class="n">y</span><span class="p">.</span><span class="n">a</span><span class="p">)</span><span class="k">return</span> <span class="n">x</span><span class="p">.</span><span class="n">a</span><span class="o">&lt;</span><span class="n">y</span><span class="p">.</span><span class="n">a</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">b</span><span class="o">!=</span><span class="n">y</span><span class="p">.</span><span class="n">b</span><span class="p">)</span><span class="k">return</span> <span class="n">x</span><span class="p">.</span><span class="n">b</span><span class="o">&gt;</span><span class="n">y</span><span class="p">.</span><span class="n">b</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="n">y</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">tmp</span><span class="p">)</span><span class="k">return</span> <span class="n">tmp</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">return</span> <span class="n">x</span><span class="p">.</span><span class="n">c</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">.</span><span class="n">c</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span><span class="n">buf</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+<span class="n">sort</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">buf</span><span class="o">+</span><span class="mi">100</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h4 id="例题">例题</h4>
+
+<h5 id="题目描述">题目描述</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Excel可以对一组纪录按任意指定列排序。现请你编写程序实现类似功能。对每个测试用例,在 N 行中输出按要求排序后的结果，即：当 C=1 时，按学号递增排序；当 C=2时，按姓名的非递减字典序排序；当 C=3 时，按成绩的非递减排序。当若干学生具有相同姓名或者相同成绩时，则按他们的学号递增排序。
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h5 id="输入描述">输入描述</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>测试输入包含若干测试用例。每个测试用例的第1行包含两个整数 N (N&lt;=100000) 和 C，其中 N 是纪录的条数，C 是指定排序的列号。以下有N行，每行包含一条学生纪录。每条学生纪录由学号（6位数字，同组测试中没有重复的学号）、姓名（不超过8位且不包含空格的字符串）、成绩（闭区间[0, 100]内的整数）组成，每个项目间用1个空格隔开。当读到 N=0 时，全部输入结束，相应的结果不要输出。
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h5 id="输出描述">输出描述</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>对每个测试用例，首先输出1行“Case:”。随后在 N 行中输出按要求排序后的结果，即：当 C=1 时，按学号递增排序；当 C=2时，按姓名的非递减字典序排序；当 C=3 
+时，按成绩的非递减排序。当若干学生具有相同姓名或者相同成绩时，则按他们的学号递增排序。
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h5 id="样例输入">样例输入</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3 1
+000007 James 85
+000010 Amy 90
+000001 Zoe 60
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h5 id="样例输出">样例输出</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Case:
+000001 Zoe 60
+000007 James 85
+000010 Amy 90
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h5 id="示例代码">示例代码</h5>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;iostream&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;sstream&gt;
+#include &lt;algorithm&gt;
+</span><span class="k">const</span> <span class="kt">int</span> <span class="n">MAX_N</span> <span class="o">=</span> <span class="mi">100005</span><span class="p">;</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">struct</span> <span class="nc">student</span><span class="p">{</span>
+    <span class="n">string</span> <span class="n">number</span><span class="p">;</span>
+    <span class="n">string</span> <span class="n">name</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">grade</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">bool</span> <span class="nf">cmp1</span><span class="p">(</span><span class="n">student</span> <span class="n">a</span><span class="p">,</span><span class="n">student</span> <span class="n">b</span><span class="p">){</span>
+    <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">number</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">cmp2</span><span class="p">(</span><span class="n">student</span> <span class="n">a</span><span class="p">,</span><span class="n">student</span> <span class="n">b</span><span class="p">){</span>
+    <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">cmp3</span><span class="p">(</span><span class="n">student</span> <span class="n">a</span><span class="p">,</span><span class="n">student</span> <span class="n">b</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">grade</span><span class="o">!=</span><span class="n">b</span><span class="p">.</span><span class="n">grade</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">grade</span><span class="o">&gt;</span><span class="n">b</span><span class="p">.</span><span class="n">grade</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">.</span><span class="n">number</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+   <span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">c</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">line</span><span class="p">;</span>
+        <span class="n">getchar</span><span class="p">();</span>
+        <span class="n">student</span> <span class="n">stus</span><span class="p">[</span><span class="n">MAX_N</span><span class="p">];</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span><span class="n">line</span><span class="p">);</span>
+            <span class="n">stringstream</span> <span class="n">ss</span><span class="p">(</span><span class="n">line</span><span class="p">);</span>
+            <span class="n">ss</span> <span class="o">&gt;&gt;</span> <span class="n">stus</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">number</span><span class="p">;</span>
+            <span class="n">ss</span> <span class="o">&gt;&gt;</span> <span class="n">stus</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">name</span><span class="p">;</span>
+            <span class="n">ss</span> <span class="o">&gt;&gt;</span> <span class="n">stus</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">grade</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="n">sort</span><span class="p">(</span><span class="n">stus</span><span class="p">,</span><span class="n">stus</span><span class="o">+</span><span class="n">n</span><span class="p">,</span><span class="n">cmp1</span><span class="p">);</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span><span class="n">sort</span><span class="p">(</span><span class="n">stus</span><span class="p">,</span><span class="n">stus</span><span class="o">+</span><span class="n">n</span><span class="p">,</span><span class="n">cmp2</span><span class="p">);</span>
+        <span class="k">else</span> <span class="n">sort</span><span class="p">(</span><span class="n">stus</span><span class="p">,</span><span class="n">stus</span><span class="o">+</span><span class="n">n</span><span class="p">,</span><span class="n">cmp3</span><span class="p">);</span>
+
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Case:"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">stus</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">number</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span> <span class="o">&lt;&lt;</span> <span class="n">stus</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">name</span> <span class="o">&lt;&lt;</span> <span class="s">" "</span> <span class="o">&lt;&lt;</span> <span class="n">stus</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">grade</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

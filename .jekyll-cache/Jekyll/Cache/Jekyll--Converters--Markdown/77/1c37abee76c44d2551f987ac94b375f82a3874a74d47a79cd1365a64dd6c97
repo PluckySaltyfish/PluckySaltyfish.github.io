@@ -1,0 +1,61 @@
+I"S<h4 id="问题描述">问题描述</h4>
+
+<p>给定一个非负整数数组，你最初位于数组的第一个位置。</p>
+
+<p>数组中的每个元素代表你在该位置可以跳跃的最大长度。</p>
+
+<p>你的目标是使用最少的跳跃次数到达数组的最后一个位置。</p>
+
+<p><br /></p>
+
+<h4 id="示例">示例</h4>
+
+<div class="language-tcl highlighter-rouge"><div class="highlight"><pre class="highlight"><code>输入：<span class="p">[</span>2,3,1,1,4<span class="p">]</span>
+输出：2
+说明：跳到最后一个位置的最小跳跃数是 2。
+     从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。
+</code></pre></div></div>
+
+<p><strong>说明:</strong>假设你总是可以到达数组的最后一个位置。</p>
+
+<p><br /></p>
+
+<h4 id="分析">分析</h4>
+
+<p><strong>难度</strong>：3.5（因为涉及到时间优化的问题）</p>
+
+<p>在两年前就有写过这个问题，比较容易想出的就是从后到前的动态规划，但是对于时间要求比较高的OJ,如果不对DP方法加以优化，是绝对会超时的。并且在<a href="http://pluckytyx.top/2017/09/%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F%E4%BA%8C">跳跃游戏二</a>中提出的优化方法有一点问题，如果非要对DP进行优化的，我能想到的是建立线段树，来缩小计算区间最小值的时间。</p>
+
+<p>但是其实使用贪心算法，可以在O(n)内完成所求：</p>
+
+<p>具体思路就是，每次都选择可跳范围内能跳最远的那一步，不断更新能跳的最远范围。</p>
+
+<p><br /></p>
+
+<h4 id="参考代码">参考代码</h4>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//leetcode:https://leetcode-cn.com/problems/jump-game-ii/</span>
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">int</span> <span class="n">jump</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">next</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">now</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">next</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">next</span> <span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">next</span> <span class="o">&gt;=</span> <span class="n">len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">){</span>
+                <span class="k">return</span> <span class="o">++</span><span class="n">step</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="c1">//跳跃，这里可以看做并不是跳至next了，而是跳至上次位置到next之间的任意位置</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">now</span><span class="p">){</span>
+                <span class="n">now</span> <span class="o">=</span> <span class="n">next</span><span class="p">;</span>
+                <span class="n">step</span><span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">step</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+:ET

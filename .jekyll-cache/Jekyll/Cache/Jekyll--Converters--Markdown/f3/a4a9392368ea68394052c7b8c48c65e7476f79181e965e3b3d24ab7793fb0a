@@ -1,0 +1,148 @@
+I"�&<h4 id="论文信息">论文信息</h4>
+
+<blockquote>
+  <p>题名: Neural Machine Translation of Rare Words with Subword Units</p>
+
+  <p>来源: 懒得查</p>
+
+  <p>年份: 2016</p>
+
+  <p>学习原因: 学习BPE</p>
+</blockquote>
+
+<ul>
+  <li>
+    <h5 id="1-abstract"><a href="#1">1 Abstract</a></h5>
+  </li>
+  <li>
+    <h5 id="2-motivation"><a href="#2">2 Motivation</a></h5>
+  </li>
+  <li>
+    <h5 id="3-related-work"><a href="#3">3 Related Work</a></h5>
+  </li>
+  <li>
+    <h5 id="4-algorithm"><a href="#4">4 Algorithm</a></h5>
+  </li>
+  <li>
+    <h5 id="5-experiments"><a href="#5">5 Experiments</a></h5>
+  </li>
+  <li>
+    <h5 id="6-analysis-and-contribution"><a href="#6">6 Analysis and Contribution</a></h5>
+  </li>
+</ul>
+
+<hr />
+
+<p><br /></p>
+
+<h4 id="1">摘要</h4>
+
+<p>现有的NMT通常都是通过一个定长词典进行翻译，而真实情形的翻译问题的词典是开放的。为了解决稀有词和未登录词的翻译问题，常见的做法是设置一个back-off词表，每当翻译到原有的词典无法翻译的词时，就去查这个词表。这篇论文提出了一种更简单的方法——在分词阶段将词分成更小的子词单元，通过这种方法增加词典对稀有词和未登录词的覆盖，从而提升翻译性能。作者的方法使WMT15上的英→德以及英→俄翻译的BLEU值分别增加了1.1及1。</p>
+
+<p><br /></p>
+
+<h4 id="2">Motivation</h4>
+
+<p>解决翻译过程中的OOV问题。</p>
+
+<p><strong>直觉</strong>：很多类型的词拆成更小单元后也是可翻译的。许多经验丰富的译者即使是第一次见到某个词时，通过该词的结构组成，如词素(morpheme)或音素(phoneme)，也可以大概猜测出该词的意思。。</p>
+
+<p><strong>可拆分的词列举</strong>：</p>
+
+<ul>
+  <li>命名实体（共享字母表直接拷贝，不共享则通过音节进行音译）</li>
+  <li>同源外来词（基于char级别翻译即可）</li>
+  <li>形态复杂的词 （复合词可能由多个词组成，或有可翻译的前后缀）</li>
+</ul>
+
+<p>另外，NMT模型通常都会用到<strong>注意力机制</strong>，在word-level的模型中，模型每次只能计算在word级别上的注意力，本文作者希望模型可以在每一步学习中将注意力放在不同的subword上，显然这样更有意义和效率。</p>
+
+<p><br /></p>
+
+<h4 id="3">相关工作</h4>
+
+<p>对于OOV问题的解决方法，前人也有许多探讨。例如，将人名直接进行拷贝或进行音译，另外，在SMT中也有不少工作讨论关于分割单词的语素的研究工作，但是较为保守。<br />
+通过相关工作的介绍，作者对分割子词给出以下意见：</p>
+
+<ul>
+  <li>分割单词的语素的办法最好是基于任务的，并且为每个语素和字符学习固定长度的向量。</li>
+  <li>NMT 模型的注意力机制能够作用在子词上。</li>
+  <li>为了能权衡词库大小和句子长度，往往只将句子中不常见单词进行分割。</li>
+</ul>
+
+<p><br /></p>
+
+<h4 id="4">算法</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">re</span><span class="p">,</span> <span class="n">collections</span>
+<span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="n">vocab</span><span class="p">):</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="n">collections</span><span class="p">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">vocab</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="n">word</span><span class="p">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">pairs</span><span class="p">[</span><span class="n">symbols</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">symbols</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">freq</span>
+    <span class="k">return</span> <span class="n">pairs</span>
+
+<span class="k">def</span> <span class="nf">merge_vocab</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="n">v_in</span><span class="p">):</span>
+    <span class="n">v_out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">bigram</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">escape</span><span class="p">(</span><span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">pair</span><span class="p">))</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="sa">r</span><span class="s">'(?&lt;!\S)'</span> <span class="o">+</span> <span class="n">bigram</span> <span class="o">+</span> <span class="sa">r</span><span class="s">'(?!\S)'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">v_in</span><span class="p">:</span>
+        <span class="n">w_out</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">sub</span><span class="p">(</span><span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">pair</span><span class="p">),</span> <span class="n">word</span><span class="p">)</span>
+        <span class="n">v_out</span><span class="p">[</span><span class="n">w_out</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_in</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">v_out</span>
+
+<span class="n">vocab</span> <span class="o">=</span> <span class="p">{</span><span class="s">'l o w &lt;/w&gt;'</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s">'l o w e r &lt;/w&gt;'</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">'n e w e s t &lt;/w&gt;'</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="s">'w i d e s t &lt;/w&gt;'</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+<span class="n">num_merges</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_merges</span><span class="p">):</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
+    <span class="n">best</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">pairs</span><span class="p">.</span><span class="n">get</span><span class="p">)</span>
+    <span class="n">vocab</span> <span class="o">=</span> <span class="n">merge_vocab</span><span class="p">(</span><span class="n">best</span><span class="p">,</span> <span class="n">vocab</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">best</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>算法很简单，思路是将词拆成字符，将共现频率高的pair连接起来。</p>
+
+<p>作者同时提出了两种在翻译中应用BPE的方案：</p>
+
+<p>1.原文和译文分别做BPE。</p>
+
+<p>2.<code class="language-plaintext highlighter-rouge">Joint BPE</code>作者实验的方案是简单的将原文和译文的训练集拼在一起做BPE。</p>
+
+<p>作者指出方案1会使词汇表的大小更小，并且在训练过程中，对应语言的subword能够轻易的被找出，而第2种方案会提升源语言和目标语言分词的一致性。</p>
+
+<p><br /></p>
+
+<h4 id="5">实验</h4>
+
+<p><strong>实验目标</strong></p>
+
+<ul>
+  <li>使用BPE能否提高未登录词和训练语料中未出现单词的翻译质量？即希望用一个固定大小的子词字典来表示开放的词库，如此就能高效的训练和解码。</li>
+  <li>词库大小、句子长度和翻译质量，三者之间如何权衡？</li>
+</ul>
+
+<p><strong>评估方法</strong></p>
+
+<ul>
+  <li>子词个数的相关统计 <br />
+比较了不同方法对词库大小和未登录词个数的影响，character n-grams、compound splitting、morfessor、hyphenation和BPE等方法。实验发现BPE是有效的，并且达到了测试集中没有未登录词的需求。</li>
+  <li>翻译实验
+    <ul>
+      <li>BLEU 翻译准确率</li>
+      <li>CHRF3 更偏向召回率</li>
+      <li>Unigram F1 用来衡量稀有单词和未登录词的翻译质量</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h4 id="6">分析与贡献</h4>
+
+<ul>
+  <li>将稀有词和未登录词表示成子词序列</li>
+  <li>BPE算法能处理具有多样形态的词以及复合词多的语言的翻译策略</li>
+</ul>
+
+:ET

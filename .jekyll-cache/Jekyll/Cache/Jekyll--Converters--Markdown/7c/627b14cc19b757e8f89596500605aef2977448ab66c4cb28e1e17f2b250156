@@ -1,0 +1,67 @@
+I"�<h5 id="前情提要">前情提要</h5>
+
+<p>突然翻到去年校招写的题，实在是愚蠢至极，这题就是个倒着解方程的题，故修改。</p>
+
+<p><br /></p>
+
+<h6 id="题目描述回忆版">题目描述（回忆版）</h6>
+
+<p><a href="http://pluckytyx.top/2018/09/%E6%89%AD%E8%9B%8B-bilibili2019%E6%A0%A1%E6%8B%9B">原题链接</a></p>
+
+<p>22和33分别有一台扭蛋机，她们的扭蛋机可以进行如下操作：</p>
+
+<ul>
+  <li>22将x个扭蛋塞进去，会扭出2*x+1个扭蛋</li>
+  <li>33将x个扭蛋塞进去，会扭出2*x+2个扭蛋</li>
+</ul>
+
+<p>开始时，22和33手中没有扭蛋。然后电视君想知道如何利用最少的扭蛋次数，使得最后22和33手中的扭蛋个数和为N，22和33的扭蛋可以给对方使用。</p>
+
+<p>数据规模我不记得了。</p>
+
+<p>输入一个N，输出使用最小的次数可得到恰好N个扭蛋的扭蛋顺序序列(‘2’代表22扭,‘3’代表33扭)</p>
+
+<p><br /></p>
+
+<h5 id="样例输入">样例输入</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>10 
+</code></pre></div></div>
+
+<h5 id="样例输出">样例输出</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>233(22扭0个，变为1个，33扭1个，变为4个，33扭4个变为10个)
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h5 id="分析">分析</h5>
+
+<p>观察题面很明显，如果输入是偶数，则最后扭的人一定是33，反之一定是22。假设输入为N，则可得倒数第一次放入扭蛋机的扭蛋数为（N-1）/2，或者（N-2）/2。以此往前推，做一个dfs就可解出来。</p>
+
+<p><br /></p>
+
+<h5 id="示例代码">示例代码</h5>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">string</span> <span class="n">res</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="n">niudan</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="s">"3"</span> <span class="o">+</span> <span class="n">res</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="k">return</span><span class="p">;</span>
+            <span class="n">niudan</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span><span class="p">{</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="s">"2"</span> <span class="o">+</span> <span class="n">res</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">return</span><span class="p">;</span>
+            <span class="n">niudan</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span> 
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>偷懒直接在LeetCode格式模板里写的。</p>
+:ET

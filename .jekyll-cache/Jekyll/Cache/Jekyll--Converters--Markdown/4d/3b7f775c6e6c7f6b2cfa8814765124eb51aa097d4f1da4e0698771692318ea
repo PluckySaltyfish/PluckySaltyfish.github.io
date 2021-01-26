@@ -1,0 +1,174 @@
+I" "<h4 id="论文信息">论文信息</h4>
+
+<blockquote>
+  <p>题名: Cross-lingual Pre-training Based Transfer for Zero-shot Neural Machine Translation</p>
+
+  <p>来源: AAAI</p>
+
+  <p>年份: 2020</p>
+
+  <p>学习原因: 组会备选</p>
+</blockquote>
+
+<ul>
+  <li>
+    <h5 id="1-abstract"><a href="#1">1 Abstract</a></h5>
+  </li>
+  <li>
+    <h5 id="2-introduction"><a href="#2">2 Introduction</a></h5>
+  </li>
+  <li>
+    <h5 id="3-method"><a href="#3">3 Method</a></h5>
+  </li>
+  <li>
+    <h5 id="4-experiments"><a href="#4">4 Experiments</a></h5>
+  </li>
+  <li>
+    <h5 id="5-conclusions--contibutions"><a href="#5">5 Conclusions &amp; Contibutions</a></h5>
+  </li>
+</ul>
+
+<hr />
+
+<h4 id="1">摘要</h4>
+<p>不同语言对之间的迁移学习在低资源场景下对神经机器翻译（NMT）具有一定效果。然而，由于源端的迁移对象（父模型）和被迁移对象（子模型）之间的<code class="language-plaintext highlighter-rouge">语义空间不匹配</code>问题，目前的迁移方法在零标注等极端场景下并不有效。为了解决该问题，作者提出一种全新的基于跨语言预训练的迁移方法。关键思想是让所有源语言<code class="language-plaintext highlighter-rouge">共享相同的特征空间</code>，从而实现零标注翻译的平稳过渡。作者引入了一种仅基于单语和两种基于双语的跨语言预训练方法，以获得适用于不同语言的通用encoder。进一步地，作者利用该通用编码器在大规模平行数据来训练父模型，然后将该父模型直接应用在零标注的翻译任务上。在两个公共数据集上的实验表明，我们的方法明显优于基于桥接的baseline系统和各种多语言NMT方法。</p>
+
+<p><br /></p>
+
+<h4 id="2">Introduction</h4>
+<p>这篇文章主要是为了进行<code class="language-plaintext highlighter-rouge">zero-shot</code>的两种语言的翻译，作者认为零标注场景的翻译失败主要来自于语言空间的不匹配（<code class="language-plaintext highlighter-rouge">domain shift problem</code>）。而一般的迁移学习方法并不等保证source和pivot语言的特征分布式相似的，所以子模型在一些场景下可能从父模型身上学不到什么有用的东西。</p>
+
+<p>这篇文章提出的方法建立在这样一个zero-shot的场景下：没有source→target的训练语料，但是有很多source→pivot 以及 pivot→target的语料（<code class="language-plaintext highlighter-rouge">所以这种方法和普通的pivot learning比有什么优势？ </code>），作者提出的方法是期望用一种<code class="language-plaintext highlighter-rouge">跨语言的预训练方法</code>来解决提到的domain shift问题，然后再进行tranfer learning的方法训练语料。重点是他们提出的这个预训练方法<strong>BRLM</strong>。</p>
+
+<blockquote>
+  <p>主要步骤</p>
+</blockquote>
+
+<ol>
+  <li>用source或pivot的单语语料或者source-&gt;pivot的双语语料预训练encoder（<del><code class="language-plaintext highlighter-rouge">双语encoder？训练一整个翻译模型然后只取encoder部分吗？</code></del>→<code class="language-plaintext highlighter-rouge">后面有讲到用到单语的这个是MLM，用到双语的是BRLM，TLM</code>）</li>
+  <li>在训练好的encoder基础上训练pivot-&gt;target的翻译模型作为parent model。<br />
+trick：freeze一些encoder层防止退化。</li>
+  <li>通过parent model训练source-&gt;target端的NMT。</li>
+</ol>
+
+<p><br /></p>
+
+<h4 id="3">Method</h4>
+<p>训练流程分为预训练阶段(pretraining phase)和迁移阶段(transfer phase)。</p>
+
+<h5 id="预训练阶段">预训练阶段</h5>
+
+<p>作者通过之前的两种方法：MLM、TLM，提出了自己的方法BRLM，又根据对齐方式的不同分为了BRLM-HA（Hard Aligment）与BRLM-SA（Soft Alignment）。</p>
+
+<blockquote>
+  <p><strong>MLM</strong></p>
+</blockquote>
+
+<p>灵感来源于Bert，在单语语料中，训练模型，随机[MASK]语料中的单词让模型进行预测。将多种语言的语料作为输入时，这种方法能找到不同语言中共享的特征，通过这种方法，可以将不同语言的词语表示映射到一个公共空间中。(<code class="language-plaintext highlighter-rouge">为啥这么大本事</code>)</p>
+
+<blockquote>
+  <p><strong>TLM</strong></p>
+</blockquote>
+
+<p>TLM是MLM的一个扩展，TLM将双语句对连接成一整个句子进行Mask模式的模型训练。</p>
+
+<blockquote>
+  <p><strong>BRLM</strong>(BRige Language Modeling)</p>
+</blockquote>
+
+<p>它的思路是如果两端的语言空间足够相近的话，一句中被Mask的单词也可以通过另一端对齐的词语的上下文推断出。根据不同的对齐方法，将BRLM分为了两种。</p>
+
+<ul>
+  <li>
+    <p>BRLM-HA</p>
+
+    <ol>
+      <li>外部对齐工具进行source-&gt;pivot的对齐</li>
+      <li>利用Transformer训练source-&gt;pivot的encoder<br />
+训练过程：随机mask source句中的单词，通过上下文以及pivot端对齐的单词推断这个词。（也做pivot端的mask，反过来同理）</li>
+    </ol>
+  </li>
+  <li>
+    <p>BRLM-SA</p>
+
+    <p>将一个额外的attention层加入，用于获取对齐信息。这样做的好处就是可以避免外部对齐工具产生的错误，并且支持多对一的对齐方式。</p>
+  </li>
+</ul>
+
+<p>作者指出，由于BRLM能更好地利用对齐信息，所以能够获得更准确地词语级别的对齐表示，因此能够更好的解决domain shift 问题。</p>
+
+<p>(<code class="language-plaintext highlighter-rouge">所以预训练里说白了就是一个考虑对齐的Bert？</code>)</p>
+
+<p><br /></p>
+
+<h5 id="迁移阶段">迁移阶段</h5>
+
+<ol>
+  <li>
+    <p>先用MLM训练单语的source和pivot(<code class="language-plaintext highlighter-rouge">相当于用Bert做Embedding吧</code>)</p>
+  </li>
+  <li>
+    <p>用所得接着训练TLM/BRLM(<code class="language-plaintext highlighter-rouge">这一步的训练是相当于得到了source→pivot的encoder作为parent model</code>)</p>
+  </li>
+  <li>
+    <p>用得到的encoder参数初始化pivot→target model<br />
+训练过程中freeze一些encoder的层防止退化.</p>
+
+    <p><br /></p>
+  </li>
+</ol>
+
+<h4 id="4">实验</h4>
+<p><br /></p>
+
+<blockquote>
+  <p><strong>性能</strong></p>
+</blockquote>
+
+<p><img src="http://0.0.0.0:4000/images/p3-table1.png" alt="img" class="center-image" /><em>Europarl 数据集</em></p>
+
+<p>字典是用60K BPE做的，中间语言选的都是英语，可以看出MLM+BRLM-SA最好。</p>
+
+<p><img src="http://0.0.0.0:4000/images/p3-table2.png" alt="img" class="center-image" /><em>MultiUN数据集</em></p>
+
+<p>字典是80K BPE ,所有句都通过moses的一个工具分了词。（<code class="language-plaintext highlighter-rouge">嗯？不是用bpe的分词结果吗</code>），害怕词典过大做了全文转小写。</p>
+
+<p>MLM+BRLM-SA最好仍然是最好的（加了BT之后，普通的结果比不太上baseline）。</p>
+
+<blockquote>
+  <p><strong>句子表示</strong></p>
+</blockquote>
+
+<p><img src="http://0.0.0.0:4000/images/p3-pic1.png" alt="img" class="center-image" /><em>Encoder 的余弦相似度</em></p>
+
+<p>MLM+BRLM-SA是最平稳的，而且相似度高，说明我们得到了非常高质量的跨语言句子表示。（<code class="language-plaintext highlighter-rouge">为什么平稳代表优秀？平稳代表训练的意义不大啊，说明一开始就很好了，之后也没怎么变过？</code>）</p>
+
+<blockquote>
+  <p><strong>上下文词语表示</strong></p>
+</blockquote>
+
+<p><img src="http://0.0.0.0:4000/images/p3-pic2.png" alt="img" class="center-image" /><em>词语的余弦相似度</em></p>
+
+<p>越亮说明越相似，同样MLM+BRLM-SA的对角线是最亮的。</p>
+
+<blockquote>
+  <p><strong>冻结参数</strong></p>
+</blockquote>
+
+<p>实验证明，冻结transformer的前4层效果最好。</p>
+
+<p><br /></p>
+
+<h4 id="5">结论与贡献</h4>
+<p>作者主要的贡献是为了解决语义空间差距的问题，设计了一个MLM式的跨语言预训练模型，包含对齐信息，最后用于pivot的transfer learning。</p>
+
+<blockquote>
+  <p><strong>思考</strong></p>
+</blockquote>
+
+<ol>
+  <li>最后一个表感觉有些不公平，没有将其他方法也加BT，单纯的方法好像是打不过第三个Baseline的。</li>
+  <li>没什么实操价值，如果考虑中文，只要pivot的话应该都是考虑同字母集的吧，中文应该做不了吧。</li>
+  <li>刷一刷transfer Learning的文章看看还能不能发现什么吧，从这篇文章看来应该是有一种基于pivot的transfer Learning的固有方法。</li>
+</ol>
+:ET

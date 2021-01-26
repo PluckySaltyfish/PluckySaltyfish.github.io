@@ -1,0 +1,8 @@
+I"�<p>###</p>
+
+<p>一训练和推理jupyter就闪断，也不报错，估测是没连上GPU，果然，加了以下这个就好了</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"CUDA_VISIBLE_DEVICES"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"2,3"</span>
+</code></pre></div></div>
+
+:ET

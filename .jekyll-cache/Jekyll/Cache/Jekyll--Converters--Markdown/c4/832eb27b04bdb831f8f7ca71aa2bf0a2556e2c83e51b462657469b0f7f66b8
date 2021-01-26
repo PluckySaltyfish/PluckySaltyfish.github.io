@@ -1,0 +1,153 @@
+I"�[<h5 id="问题描述">问题描述</h5>
+
+<p>蒜国地域是一个 n 行 m 列的矩阵，下标均从 1 开始。蒜国有个美丽的城堡，在坐标 <code class="language-plaintext highlighter-rouge">(n, m)</code> 上，蒜头君在坐标 <code class="language-plaintext highlighter-rouge">(1,1)</code> 的位置上。蒜头君打算出发去城堡游玩，游玩结束后返回到起点。在出发去城堡的路上，蒜头君只会选择往下或者往右走，而在返回的路上，蒜头君只会选择往上或者往左走，每次只能走一格。已知每个格子上都有一定数量的蒜味可乐，每个格子至多经过一次。<br />
+<br /><br />
+现在蒜头君请你来帮他计算一下，如何计划来回行程，可以收集到最多的蒜味可乐。<br />
+<br /></p>
+<h5 id="输入格式">输入格式</h5>
+
+<p>第一行输入两个整数<code class="language-plaintext highlighter-rouge">n,m(1≤n,m≤50)</code>，表示蒜国是一个 n行 m列的矩阵。</p>
+
+<p>接下来输入 n行，每行输入 m个整数，代表一个n×m 的矩阵，每个整数代表对应位置上的蒜味可乐数量，每行的每两个整数之间用一个空格隔开。其中蒜头君的位置和城堡的位置上没有蒜味可乐，用 0表示，其余位置上的整数范围在 <code class="language-plaintext highlighter-rouge">[1,100] </code>内。<br />
+<br /></p>
+<h5 id="输出格式">输出格式</h5>
+<p>输出一行，输出一个整数，表示蒜头君在来回路上能收集到的蒜味可乐的最大值。<br />
+<br /></p>
+<h5 id="样例输入">样例输入</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3 3
+0 2 9
+4 8 6
+2 7 0
+</code></pre></div></div>
+
+<h5 id="样子输出">样子输出</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>36
+</code></pre></div></div>
+
+<h5 id="难度3">难度：3</h5>
+<h5 id="考察动态规划">考察：动态规划</h5>
+<h5 id="分析">分析</h5>
+<p>这道题有三个难点：</p>
+
+<ul>
+  <li>往返两条路</li>
+  <li>两条路不重叠</li>
+  <li>蒜味可乐值最大</li>
+</ul>
+
+<p>往返两条路其实可以看做从起点开始到终点的两条路，这样思考的好处是可以同时求解这两条路。<br />
+可以用dp[i][j][k][l]表示第一条路的终点在<code class="language-plaintext highlighter-rouge">(i,j)</code>,第二条路的终点在<code class="language-plaintext highlighter-rouge">(k,l)</code>最大的蒜味可乐数。</p>
+
+<p>关于这两条路，我们可以观察出一些特点。<br />
+<img src="http://0.0.0.0:4000/images/castle.png" alt="img" class="center-image" /><em>一种不重叠的方法</em><br />
+我们假设把第一条路的终点在的位置用<code class="language-plaintext highlighter-rouge">(i,j)</code>表示,第二条路的终点用<code class="language-plaintext highlighter-rouge">(k,l)</code>表示。<br />
+可以观察出以下特点：</p>
+
+<ul>
+  <li>
+    <p>第一条路必然从左边进入终点，第二条路必然从上方进入终点。</p>
+
+    <p>这就说明我们所求的即为dp[n][m-1][n-1][m]</p>
+  </li>
+  <li>
+    <p>第二条路必然在第一条路上方</p>
+
+    <p>即任何情况下（i&gt;k&amp;&amp;j&lt;l）</p>
+  </li>
+</ul>
+
+<p>又根据不同的边界条件，我们可以写出下面的动态转移方程：</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">up_up</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">l</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">up_left</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">left_up</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">l</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">];</span>
+<span class="kt">int</span> <span class="n">left_left</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">];</span>
+
+<span class="k">if</span><span class="p">((</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">k</span><span class="o">&amp;&amp;</span><span class="n">j</span><span class="o">&gt;=</span><span class="n">l</span><span class="p">)</span><span class="o">||</span><span class="n">l</span><span class="o">==</span><span class="mi">1</span><span class="o">||</span><span class="n">i</span><span class="o">==</span><span class="mi">1</span><span class="p">){</span>
+    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">]</span><span class="o">=-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">k</span><span class="o">==</span><span class="mi">1</span><span class="p">){</span>
+    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">]</span><span class="o">=</span><span class="n">up_left</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">k</span><span class="o">==</span><span class="mi">1</span><span class="p">){</span>
+    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">up_left</span><span class="p">,</span><span class="n">left_left</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="mi">1</span><span class="p">){</span>
+    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">up_left</span><span class="p">,</span><span class="n">up_up</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span><span class="p">{</span>
+    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">up_left</span><span class="p">,</span><span class="n">up_left</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">left_left</span><span class="p">,</span><span class="n">left_up</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>然后储存结构是还可以优化的，容易发现两条路同时走得话，步数一定，i+j=k+l,所以对于第二条路，只需要知道k就能求出l。<br />
+要考虑到，对于遍历得到的k，l不一定存在（不在范围内）的情况。</p>
+
+<h5 id="参考代码">参考代码</h5>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">MAX_N</span> <span class="o">=</span> <span class="mi">55</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">MIN</span><span class="o">=-</span><span class="mi">300</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+
+    <span class="kt">int</span> <span class="n">dp</span><span class="p">[</span><span class="n">MAX_N</span><span class="p">][</span><span class="n">MAX_N</span><span class="p">][</span><span class="n">MAX_N</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="n">MAX_N</span><span class="p">][</span><span class="n">MAX_N</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%d %d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">,</span><span class="o">&amp;</span><span class="n">m</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span><span class="n">n</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span><span class="n">n</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">MIN</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span><span class="n">n</span> <span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span><span class="n">n</span> <span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">l</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="o">-</span><span class="n">k</span><span class="p">;</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">){</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">if</span><span class="p">((</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">k</span><span class="o">&amp;&amp;</span><span class="n">j</span><span class="o">&gt;=</span><span class="n">l</span><span class="p">)</span><span class="o">||</span><span class="n">l</span><span class="o">==</span><span class="mi">1</span><span class="o">||</span><span class="n">i</span><span class="o">==</span><span class="mi">1</span><span class="o">||</span><span class="n">l</span><span class="o">&gt;</span><span class="n">n</span><span class="p">){</span>
+                    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">MIN</span><span class="p">;</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="kt">int</span> <span class="n">up_up</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">];</span>
+                <span class="kt">int</span> <span class="n">up_left</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">];</span>
+                <span class="kt">int</span> <span class="n">left_up</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">];</span>
+                <span class="kt">int</span> <span class="n">left_left</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">e</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">];</span>
+
+
+                <span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">k</span><span class="o">==</span><span class="mi">1</span><span class="p">){</span>
+                    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">up_left</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">k</span><span class="o">==</span><span class="mi">1</span><span class="p">){</span>
+                    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">up_left</span><span class="p">,</span><span class="n">left_left</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="mi">1</span><span class="p">){</span>
+                    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">up_left</span><span class="p">,</span><span class="n">up_up</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">else</span><span class="p">{</span>
+                    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">up_left</span><span class="p">,</span><span class="n">up_up</span><span class="p">),</span><span class="n">max</span><span class="p">(</span><span class="n">left_left</span><span class="p">,</span><span class="n">left_up</span><span class="p">));</span>
+
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+:ET

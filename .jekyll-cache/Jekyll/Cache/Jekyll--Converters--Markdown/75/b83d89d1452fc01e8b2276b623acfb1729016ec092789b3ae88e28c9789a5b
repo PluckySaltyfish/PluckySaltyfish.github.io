@@ -1,0 +1,82 @@
+I"�<h4 id="前言">前言</h4>
+<p>持续更新，方便查阅，修改完了放在github上。<br />
+不管怎么样还是先感谢写了三天的柴柴（要哭了）。</p>
+
+<h4 id="开始">开始</h4>
+<blockquote>
+  <p>信号未定义</p>
+</blockquote>
+
+<p>出现位置：<code class="language-plaintext highlighter-rouge">Regsfile</code>的R0,R1,R2,R3,DR<br />
+报错信息：xxx未定义<br />
+错误原因：信号未定义<br />
+修改建议：<br />
+定义它们。</p>
+
+<blockquote>
+  <p>with…select格式错误</p>
+</blockquote>
+
+<p>出现位置：<code class="language-plaintext highlighter-rouge">Regsfile</code>，<code class="language-plaintext highlighter-rouge">DBUS</code><br />
+报错信息：can’t read ‘out’什么什么,请使用’buffer’或’inout’<br />
+错误原因：with…select使用格式错误<br />
+修改建议：<br />
+正确格式如下：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>with Choice select 
+         Out &lt;=  In0 after 2ns when "00",
+                 In1 after 2ns when "01",
+                 In2 after 2ns when "10",
+                 In3 after 2ns when "11";
+</code></pre></div></div>
+
+<blockquote>
+  <p>端口长度不匹配</p>
+</blockquote>
+
+<p>出现位置：<br />
+①信号<code class="language-plaintext highlighter-rouge">AR</code>(16)与端口<code class="language-plaintext highlighter-rouge">Address</code>（8）<br />
+②CUmem内部定义文件，输入的组合数据为40位，<code class="language-plaintext highlighter-rouge">CU_data</code>定义为48位<br />
+③alu_16bit中的<code class="language-plaintext highlighter-rouge">C_n_arith</code>，定义为16位，赋初值时为5位。<br />
+④alu_16bit中148行，data_o_arith长度为17位，传入的长度为5位。<br />
+报错信息：端口长度不匹配<br />
+错误原因：同上<br />
+修改建议：<br />
+①Address改为16位<br />
+②……先注释了吧<br />
+③第一，<code class="language-plaintext highlighter-rouge">C_n_arith</code>应为17位，第二，赋初值时扩充几个0。<br />
+修改定义：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    signal C_n_arith : STD_LOGIC_VECTOR (16 downto 0);
+</code></pre></div></div>
+<p>修改赋值：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    C_n_arith &lt;= "0000000000000000" &amp; (not C_n);
+</code></pre></div></div>
+<p>这里注意如果改的是端口长度要改tinyCPU的声明以及内部定义两个文件。<br />
+④data_sub_tmp符号位取反。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data_o_arith &lt;= not data_sub_tmp(16) &amp; data_sub_tmp(15 downto 0);
+</code></pre></div></div>
+
+<blockquote>
+  <p>端口名信号名混淆</p>
+</blockquote>
+
+<p>出现位置：tinycpu中241行的<code class="language-plaintext highlighter-rouge">cs</code>,<code class="language-plaintext highlighter-rouge">we</code>,<code class="language-plaintext highlighter-rouge">outnab</code><br />
+报错信息：cs，we，outnab未定义<br />
+错误原因：cs,we,outnab是Dmem的端口，这里是需要的是可获取的信号<br />
+修改建议：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Dio &lt;= Dmem_in when (Dmem_cs = '1' and Dmem_we = '1' and Dmem_outenab = '0') else (others =&gt; 'Z');  
+</code></pre></div></div>
+
+<blockquote>
+  <p>其它</p>
+</blockquote>
+
+<p>1.tinyCPU的两个输入端口名字都叫in_data1，改一改。<br />
+2.从<code class="language-plaintext highlighter-rouge">P004_时序逻辑LED点阵 </code>申请节点。<br />
+3.用哪个支撑包都行，但顶层文件要匹配，推荐用时序逻辑下的支撑包<code class="language-plaintext highlighter-rouge">RELAX_FlyxSOM_LED7SEG</code>。<br />
+4.从顶层文件绑定端口时，module名要匹配（默认tinyCPU）,要添加实例名。</p>
+
+<h4 id="结束">结束</h4>
+<p>2018-01-06 09:56:04 修改完成，成功在vivado同步并上传到节点上试了一下，可运行。</p>
+
+<p>修改后代码：<a href="https://github.com/PluckySaltyfish/TinyCPU">进入下载</a></p>
+:ET
