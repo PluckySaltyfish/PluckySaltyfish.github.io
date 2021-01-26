@@ -1,8 +1,0 @@
-I"�<h3 id="问题说明">问题说明</h3>
-
-<p>leetcode错误提示：member access within misaligned address 0xbebebebebebeb for type ‘struct ***’</p>
-
-<h3 id="原因">原因</h3>
-
-<p>结构体或类内的指针类成员没有分配初值。</p>
-:ET
