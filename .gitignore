@@ -2,4 +2,5 @@ _cache
 _site
 .idea
 .DS_Store
-.jekyll-_cache
+.jekyll-cache
+post.sh
